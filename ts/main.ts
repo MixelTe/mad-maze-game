@@ -1,3 +1,4 @@
+import { NextRoom } from "./next-room.js";
 import { EventsScripts } from "./events-scripts.js";
 import { Actions, Events, Room_event } from "./events.js";
 import { TextGameEngine, Titles } from "./TextGameEngine.js";
@@ -105,7 +106,13 @@ async function labyrinth()
 		else if (event.type == "script") await event_script(event);
 		else console.error(`Unexpected event type: ${event.type}`);
 		await tge.wait();
+		await toNextRoom();
 	}
+}
+async function toNextRoom()
+{
+	const nextRoom = getRandom(NextRoom);
+	await nextRoom(tge);
 }
 async function event_text(event: Room_event)
 {
