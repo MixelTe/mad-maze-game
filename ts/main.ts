@@ -1,12 +1,20 @@
+import { EventsScripts } from "./events-scripts.js";
+import { Actions, Events, Room_event } from "./events.js";
 import { TextGameEngine, Titles } from "./TextGameEngine.js";
 const Version = 0.1;
+const ExitChance = 0.03;
+const ExitMinRoom = 30;
+const ExitMaxRoom = 100;
+const MaxRoom = 100000;
 
 let runCount = 0;
 let agreeCount = 0;
+let roomCount = 0;
 const tge = new TextGameEngine();
 tge.init(new Titles("Безумный лабиринт", "Нажмите сюда для продолжения", `Версия: ${Version}`));
 createDescription();
-main();
+labyrinth();
+// main();
 
 
 async function main()
@@ -81,7 +89,55 @@ async function main()
 }
 async function labyrinth()
 {
-
+	tge.print();
+	tge.print("Вы зашли в лабиринт", true);
+	tge.print("Дверь за вами сразу же захлопнулась");
+	tge.print("Вы оглянулись и увидили как дверь постепенно сливается со стеной");
+	tge.print("Итак начнём!", true);
+	await tge.wait();
+	while (continueAdventure())
+	{
+		for (let i = 0; i < 6; i++) tge.print();
+		tge.print("Вы прочитали на стене:");
+		tge.print(`Комната №${rndInt(MaxRoom)}`);
+		const event = getRandom(Events);
+		if (event.type == "text") await event_text(event);
+		else if (event.type == "script") await event_script(event);
+		else console.error(`Unexpected event type: ${event.type}`);
+		await tge.wait();
+	}
+}
+async function event_text(event: Room_event)
+{
+	tge.print(event.event, true);
+	tge.print("Что вы будете делать?");
+	const actions = getRandoms(event.actions, 2);
+	actions.push(getRandom(Actions));
+	const actionsStr: string[] = [];
+	actions.forEach(action => actionsStr.push(action.action));
+	const chosen = await tge.choose(actionsStr);
+	const results = actions[chosen].results;
+	const result = getRandom(results);
+	tge.print(result, true);
+}
+async function event_script(event: Room_event)
+{
+	const script = EventsScripts.get(event.event);
+	if (script == undefined)
+	{
+		tge.print("В этой комнате нет ничего интересного");
+		console.error(`Unexpected event: ${event.event}`);
+	}
+	else
+	{
+		await script(tge);
+	}
+}
+function continueAdventure()
+{
+	if (roomCount < ExitMinRoom) return true;
+	if (roomCount >= ExitMaxRoom) return false;
+	return Math.random() > ExitChance;
 }
 
 async function reRun()
@@ -146,4 +202,25 @@ function getDate()
 		if (el.length == 1) v[i] = "0" + el;
 	}
 	return `${v[2]}.${v[3]}.${v[4]}, ${v[0]}:${v[1]}`;
+}
+function rndInt(max: number)
+{
+	return Math.floor(Math.random() * max);
+}
+function getRandom<T>(array: T[])
+{
+	return array[rndInt(array.length)];
+}
+function getRandoms<T>(array: T[], count = 1)
+{
+	const l = array.length;
+	if (count > l) count = l;
+	for (let i = 0; i < count; i++)
+	{
+		const j = rndInt(l - i);
+		const t = array[i];
+		array[i] = array[j];
+		array[j] = t;
+	}
+	return array.slice(-count);
 }
