@@ -7,14 +7,10 @@ export class Room_Event extends Creator
 	protected placeholder = "Событие";
 	protected subCreator = "Добавьте возможные действия:";
 	protected subCreatorTitle = "Например: Погладить крокодила или Взять молоток";
-
-	constructor()
-	{
-		super(() => null, Action, 0);
-		this.addChild();
-	}
+	protected childClass = Action;
+	protected lastEl = false;
 }
-class Action extends Creator
+export class Action extends Creator
 {
 	protected title = "Введите действие:";
 	protected subTitle = "";
@@ -22,14 +18,10 @@ class Action extends Creator
 	protected subCreator = "Добавьте возможные результаты действия:";
 	protected subCreatorTitle = "Например: Крокодил уснул и вы спокойно прошли мимо или Вы уронили молоток на ногу, теперь вы хромаете";
 	protected collapsible = true;
-
-	constructor(remove: (creator: Creator) => void, childClass: typeof Creator, level: number)
-	{
-		super(remove, Result, level);
-		this.addChild();
-	}
+	protected childClass = Result;
+	protected lastEl = false;
 }
-class Result extends Creator
+export class Result extends Creator
 {
 	protected title = "";
 	protected subTitle = "";
@@ -37,3 +29,4 @@ class Result extends Creator
 	protected subCreator = "";
 	protected subCreatorTitle = "";
 }
+export const CreatorsList = [Action, Result];

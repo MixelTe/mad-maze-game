@@ -8,10 +8,11 @@ export class Creator
 	protected subCreator = "Добавте ещё под-текст:";
 	protected subCreatorTitle = "Например: Это под-текст, или Отличный под-текст";
 	protected collapsible = false;
+	protected lastEl = true;
+	protected childClass = Creator;
 
-	private level: number;
-	private remove: (creator: Creator) => void;
-	private childClass: typeof Creator;
+	private level = 0;
+	private remove: (creator: Creator) => void = (creator: Creator) => null;
 	private input = TextArea();
 	private titleEl = Label();
 	private body = Div("creator-body");
@@ -21,14 +22,13 @@ export class Creator
 
 	private colapsed = false;
 
-	constructor(remove: (creator: Creator) => void, childClass: typeof Creator, level: number)
+	public init(parent?: Creator)
 	{
-		this.level = level;
-		this.remove = remove;
-		this.childClass = childClass;
-	}
-	public init()
-	{
+		if (parent)
+		{
+			this.level = parent.level + 1;
+			this.remove = parent.removeChild;
+		}
 		this.creatorsDiv.classList.add(`creators-level${this.level}`);
 		this.body.setAttribute("creator-level", `${this.level}`);
 		const id = `colapse_${Math.random()}`;
@@ -77,13 +77,14 @@ export class Creator
 				]),
 			]);
 		}
+		if (!this.lastEl) this.addChild();
 		return this.body;
 	}
 	public getData()
 	{
-		const subData: Data[] = [];
+		const subData: CreatorData[] = [];
 		this.creators.forEach(creator => subData.push(creator.getData()));
-		const data: Data = { value: this.input.value, subData };
+		const data: CreatorData = { value: this.input.value, subData };
 		return data;
 	}
 	public checkData()
@@ -114,8 +115,8 @@ export class Creator
 	}
 	protected addChild(toTop = false)
 	{
-		const child = new this.childClass(this.removeChild.bind(this), Creator, this.level + 1);
-		child.init();
+		const child = new this.childClass();
+		child.init(this);
 		if (toTop) this.creatorsDiv.prepend(child.body);
 		else this.creatorsDiv.appendChild(child.body);
 		this.creators.push(child);
@@ -145,10 +146,24 @@ export class Creator
 			this.titleEl.innerText = this.title;
 		}
 	}
+	public setValue(value: string)
+	{
+		this.input.value = value;
+	}
+	public appendChild(child: Creator)
+	{
+		this.creatorsDiv.appendChild(child.body);
+		this.creators.push(child);
+	}
+	public getChild(index: number)
+	{
+		if (this.creators.length > index) return this.creators[index];
+		return undefined;
+	}
 }
 
-interface Data
+export interface CreatorData
 {
 	value: string,
-	subData: Data[]
+	subData: CreatorData[]
 }
