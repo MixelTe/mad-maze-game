@@ -30,6 +30,14 @@ body {
     top: 0px;
 	z-index: 2;
 }
+@media screen and (min-width: 700px) {
+	.header {
+		border-radius: 0px 0px 10px 10px;
+	}
+	.send-button {
+		border-radius: 0px 0px 10px 0px;
+	}
+}
 .title {
 	font-size: 25px;
 	text-align: center;
