@@ -69,8 +69,11 @@ export class Creator
 			appendTo(subBody, [
 				Div("text", this.subCreator),
 				Div("sub-text", this.subCreatorTitle),
-				Button("creator-button-add", "Добавить", this.addChild.bind(this)),
+				Button("creator-button-add", "Добавить " + this.placeholder.toLowerCase(), this.addChild.bind(this)),
 				this.creatorsDiv,
+				Div("creator-botton-add", [
+					Button("creator-button-add", "Добавить " + this.placeholder.toLowerCase(), this.addChild.bind(this)),
+				]),
 			]);
 		}
 		return this.body;

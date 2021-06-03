@@ -88,7 +88,7 @@ textarea:focus {
 .creator-body {
 	margin-top: 10px;
 }
-.creator-body .creator-body {
+.creator-body .creator-body .creator-body {
 	margin-left: 20px;
 }
 .creators-level1 .creator-body + .creator-body {
@@ -128,7 +128,7 @@ textarea:focus {
 	text-decoration-skip-ink: none;
 }
 .creator-button-add {
-	background-color: #6ae700;
+	background-color: #8af94b;
 	margin-top: 5px;
 }
 .creator-button-remove {
@@ -136,6 +136,18 @@ textarea:focus {
 	border-radius: 0px 0px 5px 5px;
 	border-top: 0px;
 	display: block;
+}
+.creator-button-remove + .text {
+	margin-top: 10px;
+}
+.creator-body:only-child > .creator-subBody > .creator-button-remove {
+	display: none;
+}
+.creator-botton-add {
+	display: flex;
+}
+.creators-level0 .creator-botton-add {
+	margin-left: 22px;
 }
 .creator-button-add:hover, .creator-button-remove:focus, .creator-button-add:hover, .creator-button-remove:focus {
 	text-decoration: underline;
