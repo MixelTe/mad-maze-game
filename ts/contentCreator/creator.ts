@@ -69,10 +69,10 @@ export class Creator
 			appendTo(subBody, [
 				Div("text", this.subCreator),
 				Div("sub-text", this.subCreatorTitle),
-				Button("creator-button-add", "Добавить " + this.placeholder.toLowerCase(), this.addChild.bind(this)),
+				Button("creator-button-add", "Добавить " + this.placeholder.toLowerCase(), this.addChild.bind(this, true)),
 				this.creatorsDiv,
 				Div("creator-botton-add", [
-					Button("creator-button-add", "Добавить " + this.placeholder.toLowerCase(), this.addChild.bind(this)),
+					Button("creator-button-add", "Добавить " + this.placeholder.toLowerCase(), this.addChild.bind(this, false)),
 				]),
 			]);
 		}
@@ -82,11 +82,12 @@ export class Creator
 	{
 
 	}
-	protected addChild()
+	protected addChild(toTop = false)
 	{
 		const child = new this.childClass(this.removeChild.bind(this), Creator, this.level + 1);
 		child.init();
-		this.creatorsDiv.appendChild(child.body);
+		if (toTop) this.creatorsDiv.prepend(child.body);
+		else this.creatorsDiv.appendChild(child.body);
 		this.creators.push(child);
 	}
 	private removeChild(creator: Creator)

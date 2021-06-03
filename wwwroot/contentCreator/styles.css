@@ -106,9 +106,7 @@ textarea:focus {
 }
 .creator-titlediv {
 	display: flex;
-}
-.creators .creator-titlediv {
-	display: flex;
+	align-items: center;
 }
 .creator-titlediv .text {
     white-space: nowrap;
@@ -169,6 +167,24 @@ textarea:focus {
 }
 .creators-level1 .creator-input {
 	position: unset;
+}
+.button-colapse {
+	font-size: large;
+	margin-right: 5px;
+	width: 25px;
+	height: 25px;
+	padding: 0px;
+	vertical-align: middle;
+	flex-shrink: 0;
+	border-radius: 8px;
+	border: 1px solid gray;
+	background-color: #efefef;
+}
+.button-colapse:focus, .button-colapse:hover {
+	background-color: #dddddd;
+}
+.button-colapse:active {
+	background-color: #f1f1f1;
 }
 
 
