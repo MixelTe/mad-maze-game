@@ -16,6 +16,7 @@ export class Creator
 	private titleEl = Label();
 	private body = Div("creator-body");
 	private creatorsDiv = Div("creators");
+	private colapseButton = Button("button-colapse", "-", this.colapse.bind(this));
 	private creators: Creator[] = [];
 
 	private colapsed = false;
@@ -36,11 +37,10 @@ export class Creator
 		this.titleEl = Label("text", this.title, id);
 		if (this.collapsible)
 		{
-			const button = Button("button-colapse", "-", this.colapse.bind(this));
-			button.id = id;
+			this.colapseButton.id = id;
 			appendTo(this.body, [
 				Div("creator-titlediv", [
-					button,
+					this.colapseButton,
 					this.titleEl,
 				]),
 			]);
@@ -90,7 +90,12 @@ export class Creator
 	{
 		if (this.input.value == "")
 		{
+			if (this.colapsed) this.colapse();
 			this.input.scrollIntoView({ behavior: "smooth", block: "center" });
+			setTimeout(() =>
+			{
+				this.input.scrollIntoView({ behavior: "smooth", block: "center" });
+			}, 50);
 			this.input.classList.add("emptyfield");
 			return false;
 		}
@@ -99,7 +104,11 @@ export class Creator
 		{
 			const creator = this.creators[i];
 			const res = creator.checkData();
-			if (!res) return false;
+			if (!res)
+			{
+				if (this.colapsed) this.colapse();
+				return false;
+			}
 		}
 		return true;
 	}
@@ -120,18 +129,18 @@ export class Creator
 			if (i >= 0) this.creators.splice(i, 1);
 		}
 	}
-	private colapse(btn: HTMLButtonElement)
+	private colapse()
 	{
 		this.colapsed = !this.colapsed;
 		if (this.colapsed)
 		{
-			btn.innerText = "+";
+			this.colapseButton.innerText = "+";
 			this.body.classList.add("creator-colapsed");
 			this.titleEl.innerText = this.input.value || this.placeholder;
 		}
 		else
 		{
-			btn.innerText = "-";
+			this.colapseButton.innerText = "-";
 			this.body.classList.remove("creator-colapsed");
 			this.titleEl.innerText = this.title;
 		}
