@@ -130,7 +130,7 @@ textarea:focus {
 	margin-top: 5px;
 }
 .creator-button-remove {
-	background-color: tomato;
+	background-color: #ff8670;
 	border-radius: 0px 0px 5px 5px;
 	border-top: 0px;
 	display: block;
@@ -154,7 +154,7 @@ textarea:focus {
 	background-color: #5fcc00;
 }
 .creator-button-remove:active {
-	background-color: #ff3511;
+	background-color: #fd6347;
 }
 .creators-level0 .creator-input {
 	position: sticky;
@@ -186,7 +186,9 @@ textarea:focus {
 .button-colapse:active {
 	background-color: #f1f1f1;
 }
-
+.emptyfield {
+	box-shadow: 0px 0px 10px 2px red;
+}
 
 
 .popup {

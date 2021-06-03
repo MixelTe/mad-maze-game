@@ -49,6 +49,7 @@ function createPopup()
 function openSendPopup(popup: HTMLDivElement)
 {
 	popup.classList.add("popup-show");
+	if (!creator.checkData()) closeSendPopup(popup);
 }
 function closeSendPopup(popup: HTMLDivElement)
 {

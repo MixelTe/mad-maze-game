@@ -32,6 +32,7 @@ export class Creator
 		this.body.setAttribute("creator-level", `${this.level}`);
 		const id = `colapse_${Math.random()}`;
 		this.input = TextArea(this.placeholder);
+		this.input.addEventListener("click", () => this.input.classList.remove("emptyfield"));
 		this.titleEl = Label("text", this.title, id);
 		if (this.collapsible)
 		{
@@ -80,7 +81,27 @@ export class Creator
 	}
 	public getData()
 	{
-
+		const subData: Data[] = [];
+		this.creators.forEach(creator => subData.push(creator.getData()));
+		const data: Data = { value: this.input.value, subData };
+		return data;
+	}
+	public checkData()
+	{
+		if (this.input.value == "")
+		{
+			this.input.scrollIntoView({ behavior: "smooth", block: "center" });
+			this.input.classList.add("emptyfield");
+			return false;
+		}
+		if (this.creators.length == 0) return true;
+		for (let i = 0; i < this.creators.length; i++)
+		{
+			const creator = this.creators[i];
+			const res = creator.checkData();
+			if (!res) return false;
+		}
+		return true;
 	}
 	protected addChild(toTop = false)
 	{
@@ -115,4 +136,10 @@ export class Creator
 			this.titleEl.innerText = this.title;
 		}
 	}
+}
+
+interface Data
+{
+	value: string,
+	subData: Data[]
 }
