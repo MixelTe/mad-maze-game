@@ -1,6 +1,9 @@
 import { Button, Div } from "./functions.js";
+import { Room_Event } from "./room_Event.js";
 
 const { body, infDiv } = createPage();
+const creator = new Room_Event();
+body.appendChild(creator.init());
 
 
 function createPage()

@@ -21,16 +21,17 @@ body {
 
 .header {
 	background-color: #b5f392;
-	min-height: 45px;
+	min-height: 40px;
 	flex-shrink: 0;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
     position: sticky;
-    top: 0px
+    top: 0px;
+	z-index: 2;
 }
 .title {
-	font-size: 30px;
+	font-size: 25px;
 	text-align: center;
 	margin-right: 5px;
 	flex-grow: 1;
@@ -53,7 +54,103 @@ body {
 
 .body {
 	flex-grow: 1;
+	padding: 10px;
 }
+.text {
+	font-size: large;
+}
+.sub-text {
+	font-size: small;
+}
+textarea {
+	width: 100%;
+	min-height: 3em;
+	outline: none;
+	margin-top: 10px;
+	resize: vertical;
+	font-size: large;
+	border-radius: 5px;
+	box-sizing: border-box;
+	max-height: 70vh;
+}
+textarea:focus {
+	box-shadow: 0px 0px 3px blue;
+}
+
+.creator-body {
+	margin-top: 10px;
+}
+.creator-body .creator-body {
+	margin-left: 20px;
+}
+.creators-level1 .creator-body + .creator-body {
+	margin-top: 0px;
+}
+.creator-body + .creator-body {
+	margin-top: 30px;
+}
+.creators {
+	margin-top: 10px;
+}
+.creators-level1 {
+	border-left: 2px solid #00bc00;
+    border-radius: 5px;
+}
+.creator-titlediv {
+	display: flex;
+}
+.creators .creator-titlediv {
+	display: flex;
+}
+.creator-titlediv .text {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+	width: 100%;
+}
+.creator-colapsed > .creator-subBody {
+	display: none;
+}
+.creator-button-add, .creator-button-remove {
+	width: 100%;
+	user-select: none;
+	border: 1px solid grey;
+	border-radius: 3px;
+	outline: none;
+	text-decoration-skip-ink: none;
+}
+.creator-button-add {
+	background-color: #6ae700;
+	margin-top: 5px;
+}
+.creator-button-remove {
+	background-color: tomato;
+	border-radius: 0px 0px 5px 5px;
+	border-top: 0px;
+	display: block;
+}
+.creator-button-add:hover, .creator-button-remove:focus, .creator-button-add:hover, .creator-button-remove:focus {
+	text-decoration: underline;
+}
+.creator-button-add:active {
+	background-color: #5fcc00;
+}
+.creator-button-remove:active {
+	background-color: #ff3511;
+}
+.creators-level0 .creator-input {
+	position: sticky;
+	top: 40px;
+	background-color: antiquewhite;
+	display: flex;
+}
+.creators-level0 textarea {
+	border-radius: 5px 5px 0px 0px;
+}
+.creators-level1 .creator-input {
+	position: unset;
+}
+
 
 
 .popup {
@@ -87,10 +184,8 @@ body {
 }
 .popup-header {
 	font-size: 25px;
-	margin-left: 15px;
-    margin-right: 15px;
     text-align: center;
-	margin: 20px 20px 0px 20px;
+	margin: 8px 35px 0px 35px;
 }
 .popup-footer {
 	background-color: #6ae700;
