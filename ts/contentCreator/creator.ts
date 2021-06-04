@@ -12,7 +12,7 @@ export class Creator
 	protected childClass = Creator;
 
 	private level = 0;
-	private remove: (creator: Creator) => void = (creator: Creator) => null;
+	private remove: () => void = () => null;
 	private input = TextArea();
 	private titleEl = Label();
 	private body = Div("creator-body");
@@ -27,7 +27,7 @@ export class Creator
 		if (parent)
 		{
 			this.level = parent.level + 1;
-			this.remove = parent.removeChild;
+			this.remove = parent.removeChild.bind(parent, this);
 		}
 		this.creatorsDiv.classList.add(`creators-level${this.level}`);
 		this.body.setAttribute("creator-level", `${this.level}`);
@@ -62,7 +62,7 @@ export class Creator
 		if (this.level > 0)
 		{
 			appendTo(subBody, [
-				Button("creator-button-remove", "Удалить", this.remove.bind(this, this)),
+				Button("creator-button-remove", "Удалить", this.remove),
 			]);
 		}
 		if (this.subCreator != "")
