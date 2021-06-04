@@ -72,7 +72,8 @@ body {
 }
 textarea {
 	width: 100%;
-	min-height: 3em;
+	min-height: 1.6em;
+	height: 2.65em;
 	outline: none;
 	margin-top: 10px;
 	resize: vertical;
