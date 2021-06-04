@@ -2,28 +2,20 @@ import { appendTo, Button, Div, Label, TextArea } from "./functions.js";
 
 export class Creator
 {
-	protected title = "Введите текст:";
-	protected subTitle = "Например: Это текст, или Отличный текст";
-	protected placeholder = "Текст";
-	protected subCreator = "Добавте ещё под-текст:";
-	protected subCreatorTitle = "Например: Это под-текст, или Отличный под-текст";
-	protected collapsible = false;
-	protected lastEl = true;
-	protected childClass = Creator;
-
-	private level = 0;
-	private remove: () => void = () => null;
-	private input = TextArea();
-	private titleEl = Label();
-	private body = Div("creator-body");
-	private creatorsDiv = Div("creators");
-	private colapseButton = Button("button-colapse", "-", this.colapse.bind(this));
-	private creators: Creator[] = [];
-
+	private readonly options: CreatorOptions;
+	private readonly level: number = 0;
+	private readonly remove: () => void = () => null;
+	private readonly input = TextArea();
+	private readonly titleEl = Label();
+	private readonly body = Div("creator-body");
+	private readonly creatorsDiv = Div("creators");
+	private readonly colapseButton = Button("button-colapse", "-", this.colapse.bind(this));
+	private readonly creators: Creator[] = [];
 	private colapsed = false;
 
-	public init(parent?: Creator)
+	constructor(options: CreatorOptions, parent?: Creator)
 	{
+		this.options = options;
 		if (parent)
 		{
 			this.level = parent.level + 1;
@@ -32,10 +24,10 @@ export class Creator
 		this.creatorsDiv.classList.add(`creators-level${this.level}`);
 		this.body.setAttribute("creator-level", `${this.level}`);
 		const id = `colapse_${Math.random()}`;
-		this.input = TextArea(this.placeholder);
+		this.input = TextArea(options.placeholder);
 		this.input.addEventListener("click", () => this.input.classList.remove("emptyfield"));
-		this.titleEl = Label("text", this.title, id);
-		if (this.collapsible)
+		this.titleEl = Label("text", options.title, id);
+		if (options.collapsible)
 		{
 			this.colapseButton.id = id;
 			appendTo(this.body, [
@@ -56,7 +48,7 @@ export class Creator
 		const subBody = Div("creator-subBody");
 		this.body.appendChild(subBody);
 		appendTo(subBody, [
-			Div("sub-text", this.subTitle),
+			Div("sub-text", options.hint),
 			Div("creator-input", [this.input]),
 		]);
 		if (this.level > 0)
@@ -65,20 +57,19 @@ export class Creator
 				Button("creator-button-remove", "Удалить", this.remove),
 			]);
 		}
-		if (this.subCreator != "")
+		if (options.child != null)
 		{
 			appendTo(subBody, [
-				Div("text", this.subCreator),
-				Div("sub-text", this.subCreatorTitle),
-				Button("creator-button-add", "Добавить " + this.placeholder.toLowerCase(), this.addChild.bind(this, true)),
+				Div("text", options.subTitle),
+				Div("sub-text", options.subTitleHint),
+				Button("creator-button-add", "Добавить " + options.addText, this.addChild.bind(this, true)),
 				this.creatorsDiv,
 				Div("creator-botton-add", [
-					Button("creator-button-add", "Добавить " + this.placeholder.toLowerCase(), this.addChild.bind(this, false)),
+					Button("creator-button-add", "Добавить " + options.addText.toLowerCase(), this.addChild.bind(this, false)),
 				]),
 			]);
+			this.addChild();
 		}
-		if (!this.lastEl) this.addChild();
-		return this.body;
 	}
 	public getData()
 	{
@@ -115,11 +106,15 @@ export class Creator
 	}
 	protected addChild(toTop = false)
 	{
-		const child = new this.childClass();
-		child.init(this);
-		if (toTop) this.creatorsDiv.prepend(child.body);
-		else this.creatorsDiv.appendChild(child.body);
-		this.creators.push(child);
+		if (this.options.child)
+		{
+			const child = new Creator(this.options.child, this);
+			if (toTop) this.creatorsDiv.prepend(child.body);
+			else this.creatorsDiv.appendChild(child.body);
+			this.creators.push(child);
+			return child;
+		}
+		return null;
 	}
 	private removeChild(creator: Creator)
 	{
@@ -137,28 +132,31 @@ export class Creator
 		{
 			this.colapseButton.innerText = "+";
 			this.body.classList.add("creator-colapsed");
-			this.titleEl.innerText = this.input.value || this.placeholder;
+			this.titleEl.innerText = this.input.value || this.options.placeholder;
 		}
 		else
 		{
 			this.colapseButton.innerText = "-";
 			this.body.classList.remove("creator-colapsed");
-			this.titleEl.innerText = this.title;
+			this.titleEl.innerText = this.options.title;
 		}
 	}
 	public setValue(value: string)
 	{
 		this.input.value = value;
 	}
-	public appendChild(child: Creator)
+	public createChild()
 	{
-		this.creatorsDiv.appendChild(child.body);
-		this.creators.push(child);
+		return this.addChild();
 	}
 	public getChild(index: number)
 	{
 		if (this.creators.length > index) return this.creators[index];
 		return undefined;
+	}
+	public getBody()
+	{
+		return this.body;
 	}
 }
 
@@ -166,4 +164,15 @@ export interface CreatorData
 {
 	value: string,
 	subData: CreatorData[]
+}
+export interface CreatorOptions
+{
+	title: string,
+	hint: string,
+	placeholder: string,
+	subTitle: string,
+	subTitleHint: string,
+	addText: string,
+	collapsible: boolean,
+	child: CreatorOptions | null,
 }
