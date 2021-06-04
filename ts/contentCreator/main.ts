@@ -1,8 +1,10 @@
 import { Button, Div } from "./functions.js";
 import { restoreData } from "./Room_Event.js";
+import { Sender } from "./sender.js";
 
-const { body, infDiv } = createPage();
+const { body, infDiv, buttonSend } = createPage();
 let creator = restoreData(body);
+let sender = new Sender(infDiv, buttonSend);
 setInterval(saveData, 5000);
 
 
@@ -23,17 +25,18 @@ function createPage()
 		body,
 		popup.popup,
 	]));
-	return { body, infDiv: popup.infDiv };
+	return { body, infDiv: popup.infDiv, buttonSend: popup.buttonSend };
 }
 function createPopup()
 {
 	const infDiv = Div();
 	const button = Button("popup-close", "×");
+	const buttonSend = Button("popup-button-send", "Отправить", send);
 	const popup = Div("popup", [
 		Div("popup-container", [
 			Div("popup-header", "Отправка нового события"),
 			Div("popup-body", [infDiv]),
-			Div("popup-footer", "Отправить"),
+			buttonSend,
 			button,
 		]),
 	]);
@@ -50,10 +53,14 @@ function createPopup()
 	});
 	// openSendPopup(popup);
 
-	return { popup, infDiv };
+	return { popup, infDiv, buttonSend };
 }
 function openSendPopup(popup: HTMLDivElement)
 {
 	if (!creator.checkData()) return;
 	popup.classList.add("popup-show");
+}
+function send()
+{
+	sender.send(creator);
 }

@@ -67,6 +67,9 @@ body {
 .text {
 	font-size: large;
 }
+.marginTop {
+	margin-top: 10px;
+}
 .sub-text {
 	font-size: small;
 }
@@ -261,7 +264,7 @@ textarea:focus {
 	overflow-y: auto;
 	margin-top: 15px;
 	margin-bottom: 15px;
-	margin: 0px 20px 0px 20px;
+	padding: 0px 20px 0px 20px;
 }
 .popup-close {
 	position: absolute;
@@ -334,4 +337,42 @@ textarea:focus {
 
 .popup-confirm-buttons button:hover, .popup-confirm-buttons button:focus {
 	text-decoration: underline;
+}
+.sender-copybutton {
+	display: inline;
+}
+
+@keyframes spinner-line-fade-quick {
+    0%, 39%, 100% {
+      opacity: 0.25;
+    }
+    40% {
+      opacity: 1;
+    }
+}
+.spinner {
+    position: absolute;
+    width: 0px;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    transform: scale(0.9);
+	--trx--: 45px
+}
+.spinner > div {
+    position: absolute;
+    top: -8.5px;
+    width: 55px;
+    height: 17px;
+    background: transparent;
+    border-radius: 8.5px;
+    transform-origin: left center;
+}
+.spinner > div > div {
+    width: 100%;
+    height: 100%;
+    background: rgb(255, 255, 255);
+    border-radius: 8.5px;
+    box-shadow: gray 0px 0px 10px;
+	animation: 1s linear -1s infinite normal none running spinner-line-fade-quick;
 }

@@ -8,6 +8,16 @@ export function Div(classes: string | string[] = [], childrenOrText: Element[] |
 	else childrenOrText.forEach(child => div.appendChild(child));
 	return div;
 }
+export function Span(classes: string | string[] = [], childrenOrText: Element[] | string = [], text: string = "")
+{
+	const span = document.createElement("span");
+	if (typeof classes == "string") span.classList.add(classes);
+	else classes.forEach(cls => span.classList.add(cls));
+	span.innerText = text;
+	if (typeof childrenOrText == "string") span.innerText = childrenOrText;
+	else childrenOrText.forEach(child => span.appendChild(child));
+	return span;
+}
 export function Label(classes: string | string[] = [], text = "", htmlFor = "")
 {
 	const label = document.createElement("label");
