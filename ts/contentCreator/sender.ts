@@ -4,11 +4,13 @@ import { appendTo, Div, TextArea, Span, Button } from "./functions.js";
 
 export class Sender
 {
+	private readonly mainPage: HTMLDivElement;
 	private readonly infDiv: HTMLDivElement;
 	private readonly buttonSend: HTMLButtonElement;
 	private readonly waitDiv = Div(["popup", "popup-show"]);
 	private readonly name = TextArea();
 	private readonly comment = TextArea();
+	public sent = false;
 
 	constructor(infDiv: HTMLDivElement, buttonSend: HTMLButtonElement)
 	{
@@ -16,17 +18,19 @@ export class Sender
 		this.buttonSend = buttonSend;
 		buttonSend.innerText = "Отправить";
 		infDiv.innerHTML = "";
-		appendTo(infDiv, [
+		this.mainPage = Div([], [
 			Div("text", "Введите ваше имя (если хотите):"),
 			this.name,
 			Div("text", "Сюда можно написать коментарий к событию:"),
 			this.comment,
 		]);
+		infDiv.appendChild(this.mainPage);
 		this.waitDiv.appendChild(this.createSpinner());
 	}
 
 	public async send(creator: Creator)
 	{
+		if (this.sent) return;
 		const data: sendData = {
 			author: {
 				name: this.name.value,
@@ -34,9 +38,8 @@ export class Sender
 			},
 			data: this.getData(creator),
 		}
-		console.log(data);
+		// console.log(data);
 		this.showWait();
-		// return setTimeout(this.hideWait.bind(this), 1000);
 		const json = JSON.stringify(data);
 		let r;
 		try
@@ -52,6 +55,7 @@ export class Sender
 			{
 				throw new Error(`service api call failed (text) status: ${r.status}`);
 			}
+			this.showOnSentPage();
 		}
 		catch {
 			this.showOnErrorPage(json);
@@ -113,6 +117,16 @@ export class Sender
 		]);
 		this.buttonSend.innerText = "Отправить ещё раз";
 	}
+	private showOnSentPage()
+	{
+		this.infDiv.innerHTML = "";
+		appendTo(this.infDiv, [
+			Div("text", "Новое событие отправленно!"),
+			Div(["text", "marginTop"], "Возможно оно будет добавленно в следующей версии игры"),
+		]);
+		this.sent = true;
+		this.buttonSend.innerText = "Создать ещё одно событие";
+	}
 	private createLinkToIssue(data: string)
 	{
 		const mainLink = "https://github.com/MixelTe/mad-maze-game/issues/new";
@@ -121,9 +135,17 @@ export class Sender
 		const link = `${mainLink}?title=${title}&body=${text}`;
 		return link;
 	}
-	private copyData()
+	private copyData(data: string)
 	{
-
+		const el = document.createElement('textarea');
+		el.value = data;
+		el.setAttribute('readonly', '');
+		el.style.position = 'absolute';
+		el.style.left = '-9999px';
+		document.body.appendChild(el);
+		el.select();
+		document.execCommand('copy');
+		document.body.removeChild(el);
 	}
 	private createSpinner()
 	{
@@ -140,6 +162,12 @@ export class Sender
 			subpart.style.animationDelay = `${delayStep * i}s`;
 		}
 		return spinner;
+	}
+	public onPopupClose()
+	{
+		this.buttonSend.innerText = "Отправить";
+		this.infDiv.innerHTML = "";
+		this.infDiv.appendChild(this.mainPage);
 	}
 }
 interface sendData

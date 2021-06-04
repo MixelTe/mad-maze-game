@@ -4,16 +4,20 @@ export class ConfirmPopup
 {
 	private readonly popup: HTMLDivElement;
 	private resolve: ((v: boolean) => void) | undefined;
-	constructor(text: string)
+	constructor(text: string, revert = false)
 	{
+		const buttons = revert ? [
+			Button("popup-confirm-no", "Нет", this.result_no.bind(this)),
+			Button("popup-confirm-yes", "Да", this.result_yes.bind(this)),
+		]:[
+			Button("popup-confirm-yes", "Да", this.result_yes.bind(this)),
+			Button("popup-confirm-no", "Нет", this.result_no.bind(this)),
+		];
 		this.popup = Div(["popup", "popup-show"], [
 			Div("popup-confirm-container", [
 				Div("popup-confirm-text", `Вы уверены, что хотите ${text}?`),
 				Div("popup-confirm-space"),
-				Div("popup-confirm-buttons", [
-					Button("popup-confirm-yes", "Да", this.result_yes.bind(this)),
-					Button("popup-confirm-no", "Нет", this.result_no.bind(this)),
-				]),
+				Div("popup-confirm-buttons", buttons),
 			]),
 		]);
 	}

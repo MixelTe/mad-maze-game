@@ -242,17 +242,29 @@ textarea:focus {
     text-align: center;
 	margin: 8px 35px 0px 35px;
 }
-.popup-footer {
-	background-color: #6ae700;
+.popup-button-send, .popup-button-clear {
 	min-height: 1.5em;
 	user-select: none;
 	cursor: pointer;
+	border: none;
+	outline: none;
 }
-.popup-footer:hover, .popup-footer:focus {
+.popup-button-clear {
+	background-color: #ff8670;
+	flex-grow: 1;
+}
+.popup-button-send {
+	background-color: #6ae700;
+	flex-grow: 10;
+}
+.popup-footer button:hover, .popup-footer button:focus {
 	text-decoration: underline;
 }
-.popup-footer:active {
+.popup-button-send:active {
 	background-color: #5fcc00;
+}
+.popup-button-clear:active {
+	background-color: #fd6347;
 }
 .popup-footer, .popup-header {
 	display: flex;
@@ -323,11 +335,11 @@ textarea:focus {
 	height: 2em;
 	font-size: x-large;
 	border: 1px solid gray;
+	margin-right: -1px;
 	text-decoration-skip-ink: none;
 }
 .popup-confirm-yes {
 	flex-grow: 1;
-	border-right: 0px;
 	background-color: wheat;
 }
 .popup-confirm-no {

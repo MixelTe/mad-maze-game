@@ -46,10 +46,7 @@ export function restoreData(body: HTMLDivElement)
 			console.error("Data load failed: ", er);
 		}
 	}
-	body.innerHTML = "";
-	const creator = new Creator(Room_Event);
-	body.appendChild(creator.getBody());
-	return creator;
+	return createEmptyCreator(body);
 }
 export function setData(creator: Creator, data: CreatorData)
 {
@@ -71,4 +68,11 @@ export function setData(creator: Creator, data: CreatorData)
 			if (subCreator) setData(subCreator, subData);
 		}
 	}
+}
+export function createEmptyCreator(body: HTMLDivElement)
+{
+	body.innerHTML = "";
+	const creator = new Creator(Room_Event);
+	body.appendChild(creator.getBody());
+	return creator;
 }
