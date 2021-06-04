@@ -37,6 +37,7 @@ function createPopup()
 			button,
 		]),
 	]);
+	const closeSendPopup = (popup: HTMLDivElement) => popup.classList.remove("popup-show");
 	const closePopup = closeSendPopup.bind(undefined, popup);
 	button.addEventListener("click", closePopup);
 	popup.addEventListener("click", (e) =>
@@ -53,10 +54,6 @@ function createPopup()
 }
 function openSendPopup(popup: HTMLDivElement)
 {
+	if (!creator.checkData()) return;
 	popup.classList.add("popup-show");
-	if (!creator.checkData()) closeSendPopup(popup);
-}
-function closeSendPopup(popup: HTMLDivElement)
-{
-	popup.classList.remove("popup-show");
 }
