@@ -114,6 +114,9 @@ textarea:focus {
     overflow: hidden;
 	width: 100%;
 }
+.creator-input + .text {
+	margin-top: 5px;
+}
 .creator-colapsed > .creator-subBody {
 	display: none;
 }
@@ -129,17 +132,26 @@ textarea:focus {
 	background-color: #8af94b;
 	margin-top: 5px;
 }
+.creator-removeDiv {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 5px;
+}
 .creator-button-remove {
 	background-color: #ff8670;
-	border-radius: 0px 0px 5px 5px;
-	border-top: 0px;
+	border-radius: 5px 5px 0px 0px;
+	border-bottom: 0px;
 	display: block;
+	width: 8em;
 }
 .creator-button-remove + .text {
 	margin-top: 10px;
 }
-.creator-body:only-child > .creator-subBody > .creator-button-remove {
+.creator-body:only-child > .creator-subBody > .creator-removeDiv > .creator-button-remove {
 	display: none;
+}
+.creator-body:only-child > .creator-subBody > .creator-input > textarea {
+	border-radius: 5px 5px 5px 5px;
 }
 .creator-botton-add {
 	display: flex;
@@ -163,7 +175,8 @@ textarea:focus {
 	display: flex;
 }
 .creators-level0 textarea {
-	border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 0px 5px 5px;
+	margin-top: 0px;
 }
 .creators-level1 .creator-input {
 	position: unset;

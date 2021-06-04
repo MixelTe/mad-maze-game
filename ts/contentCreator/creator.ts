@@ -49,14 +49,18 @@ export class Creator
 		this.body.appendChild(subBody);
 		appendTo(subBody, [
 			Div("sub-text", options.hint),
-			Div("creator-input", [this.input]),
 		]);
 		if (this.level > 0)
 		{
 			appendTo(subBody, [
-				Button("creator-button-remove", "Удалить", this.remove),
+				Div("creator-removeDiv", [
+					Button("creator-button-remove", "Удалить", this.remove),
+				]),
 			]);
 		}
+		appendTo(subBody, [
+			Div("creator-input", [this.input]),
+		]);
 		if (options.child != null)
 		{
 			appendTo(subBody, [
