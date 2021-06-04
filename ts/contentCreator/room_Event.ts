@@ -35,10 +35,9 @@ export function restoreData(body: HTMLDivElement)
 	{
 		try
 		{
-			const parsedData = <CreatorData>JSON.parse(data);
 			const creator = new Creator(Room_Event);
 			body.appendChild(creator.getBody());
-			setData(creator, parsedData);
+			apllyData(creator, data);
 			return creator;
 		}
 		catch (er)
@@ -48,7 +47,12 @@ export function restoreData(body: HTMLDivElement)
 	}
 	return createEmptyCreator(body);
 }
-export function setData(creator: Creator, data: CreatorData)
+export function apllyData(creator: Creator, data: string)
+{
+	const parsedData = <CreatorData>JSON.parse(data);
+	setData(creator, parsedData);
+}
+function setData(creator: Creator, data: CreatorData)
 {
 	creator.setValue(data.value);
 	if (data.subData.length > 0)

@@ -1,6 +1,6 @@
 import { ConfirmPopup } from "./confirmPopup.js";
 import { Button, Div } from "./functions.js";
-import { restoreData, createEmptyCreator } from "./Room_Event.js";
+import { restoreData, createEmptyCreator, apllyData } from "./Room_Event.js";
 import { Sender } from "./sender.js";
 
 const { body, infDiv, buttonSend, popup } = createPage();
@@ -8,6 +8,22 @@ let creator = restoreData(body);
 let sender = new Sender(infDiv, buttonSend);
 setInterval(saveData, 5000);
 
+declare global
+{
+	export interface Window
+	{
+		apllyData: (data: string) => void;
+	}
+}
+window.apllyData = (data: string) =>
+{
+	if (data == undefined)
+	{
+		console.error("apllyData: data is empty");
+		return;
+	}
+	apllyData(creator, data);
+}
 
 function saveData()
 {
