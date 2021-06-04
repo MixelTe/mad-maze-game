@@ -215,6 +215,7 @@ textarea:focus {
 	justify-content: center;
 	align-items: center;
 	visibility: hidden;
+	z-index: 10;
 }
 .popup-show {
 	visibility: visible;
@@ -231,7 +232,6 @@ textarea:focus {
 	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
-	color: var(--color-text--);
 }
 .popup-header {
 	font-size: 25px;
@@ -284,4 +284,53 @@ textarea:focus {
 }
 .popup-close:active {
 	box-shadow: inset 0px 0px 5px -1px black;
+}
+
+.popup-confirm-container {
+	width: 100%;
+	box-sizing: border-box;
+	max-width: 400px;
+	min-height: 180px;
+	max-height: 100%;
+	background-color: antiquewhite;
+	border: 10px solid #b5f392;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+}
+.popup-confirm-text {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    text-align: center;
+	font-size: 25px;
+	flex-shrink: 0;
+}
+.popup-confirm-space {
+	flex: 1 1 auto;
+}
+.popup-confirm-buttons {
+	display: flex;
+	flex-shrink: 0;
+	margin-top: 30px;
+}
+.popup-confirm-yes, .popup-confirm-no {
+	height: 2em;
+	font-size: x-large;
+	border: 1px solid gray;
+	text-decoration-skip-ink: none;
+}
+.popup-confirm-yes {
+	flex-grow: 1;
+	border-right: 0px;
+	background-color: wheat;
+}
+.popup-confirm-no {
+	flex-grow: 3;
+	background-color: #a5ff73;
+}
+
+.popup-confirm-buttons button:hover, .popup-confirm-buttons button:focus {
+	text-decoration: underline;
 }

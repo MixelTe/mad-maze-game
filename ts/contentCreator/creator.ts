@@ -1,3 +1,4 @@
+import { ConfirmPopup } from "./confirmPopup.js";
 import { appendTo, Button, Div, Label, TextArea } from "./functions.js";
 
 export class Creator
@@ -120,10 +121,15 @@ export class Creator
 		}
 		return null;
 	}
-	private removeChild(creator: Creator)
+	private async removeChild(creator: Creator)
 	{
 		if (this.creators.length > 1)
 		{
+			if (!creator.isEmpty())
+			{
+				const text = "удалить " + this.options.addText;
+				if (!await new ConfirmPopup(text).ask()) return;
+			}
 			this.creatorsDiv.removeChild(creator.body);
 			const i = this.creators.indexOf(creator);
 			if (i >= 0) this.creators.splice(i, 1);
@@ -145,6 +151,17 @@ export class Creator
 			this.titleEl.innerText = this.options.title;
 		}
 	}
+	private isEmpty()
+	{
+		if (this.input.value != "") return false;
+		if (this.creators.length == 0) return true;
+		for (let i = 0; i < this.creators.length; i++)
+		{
+			if (!this.creators[i].isEmpty()) return false;
+		}
+		return true;
+	}
+
 	public setValue(value: string)
 	{
 		this.input.value = value;
