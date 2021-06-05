@@ -1,5 +1,5 @@
 import { Creator, CreatorData, CreatorOptions } from "./creator.js";
-import { SendData } from "./sender.js";
+import { SendData, Sender } from "./sender.js";
 
 export const Room_Event: CreatorOptions = {
 	title: "Введите событие:",
@@ -49,7 +49,7 @@ export function restoreData(body: HTMLDivElement)
 	}
 	return createEmptyCreator(body);
 }
-export function apllyData(creator: Creator, data: string, trySendData = false)
+export function apllyData(creator: Creator, data: string, trySendData = false, sender?: Sender)
 {
 	if (trySendData)
 	{
@@ -57,6 +57,7 @@ export function apllyData(creator: Creator, data: string, trySendData = false)
 		if (parsedData.author != undefined)
 		{
 			setData(creator, sendDataToCreatorData(parsedData));
+			if (sender) sender.setData(parsedData.author);
 		}
 		else
 		{

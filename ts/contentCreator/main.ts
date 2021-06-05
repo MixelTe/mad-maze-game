@@ -25,7 +25,7 @@ window.apllyData = (data: string) =>
 		console.error("apllyData: data is empty");
 		return;
 	}
-	apllyData(creator, data, true);
+	apllyData(creator, data, true, sender);
 }
 window.getData = (full = true) =>
 {
