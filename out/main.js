@@ -133,22 +133,22 @@ async function runOne(funcs) {
     await func(tge);
 }
 async function event_text(event) {
-    tge.print(event.event, true);
+    tge.print(event.text, true);
     tge.print("Что вы будете делать?");
     const actions = getRandoms(event.actions, 2);
     actions.push(getRandom(Actions));
     const actionsStr = [];
-    actions.forEach(action => actionsStr.push(action.action));
+    actions.forEach(action => actionsStr.push(action.text));
     const chosen = await tge.choose(actionsStr);
     const results = actions[chosen].results;
     const result = getRandom(results);
     tge.print(result, true);
 }
 async function event_script(event) {
-    const script = EventsScripts.get(event.event);
+    const script = EventsScripts.get(event.text);
     if (script == undefined) {
         tge.print("В этой комнате нет ничего интересного");
-        console.error(`Unexpected event: ${event.event}`);
+        console.error(`Unexpected event: ${event.text}`);
     }
     else {
         await script(tge);
