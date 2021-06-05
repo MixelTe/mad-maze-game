@@ -30,14 +30,6 @@ body {
     top: 0px;
 	z-index: 2;
 }
-@media screen and (min-width: 700px) {
-	.header {
-		border-radius: 0px 0px 10px 10px;
-	}
-	.send-button {
-		border-radius: 0px 0px 10px 0px;
-	}
-}
 .title {
 	font-size: 25px;
 	text-align: center;
@@ -52,12 +44,42 @@ body {
 	border: 0px;
 	background-color: #6ae700;
 	outline: none;
+	border-radius: 15px 0px 0px 15px;
 }
 .send-button:hover, .send-button:focus {
 	text-decoration: underline;
 }
 .send-button:active {
 	background-color: #5fcc00;
+}
+.remove-button {
+	font-size: 16px;
+	height: 100%;
+	min-width: 1.6em;
+	max-width: 40px;
+	width: 6%;
+	box-sizing: border-box;
+	border: 0px;
+	background-color: #ff8670;
+	outline: none;
+	border-radius: 0px 15px 15px 0px;
+}
+.remove-button:hover, .remove-button:focus {
+	text-decoration: underline;
+}
+.remove-button:active {
+	background-color: #fd6347;
+}
+@media screen and (min-width: 700px) {
+	.header {
+		border-radius: 0px 0px 15px 15px;
+	}
+	.send-button {
+		border-radius: 0px 0px 15px 0px;
+	}
+	.remove-button {
+		border-radius: 0px 0px 0px 15px;
+	}
 }
 
 .body {
@@ -76,7 +98,7 @@ body {
 textarea {
 	width: 100%;
 	min-height: 1.6em;
-	height: 2.65em;
+	height: 3.3em;
 	outline: none;
 	margin-top: 10px;
 	resize: vertical;
@@ -94,7 +116,7 @@ textarea:focus {
 	margin-top: 0px;
 }
 .creator-body .creator-body .creator-body {
-	margin-left: 20px;
+	margin-left: 0px;
 }
 .creators-level1 .creator-body + .creator-body {
 	margin-top: 0px;
@@ -106,12 +128,13 @@ textarea:focus {
 	margin-top: 10px;
 }
 .creators-level0 {
-	margin-top: 20px;
-	margin-bottom: 20px;
+	margin-top: 15px;
+	margin-bottom: 10px;
 }
-.creators-level1 {
-	border-left: 2px solid #00bc00;
-    border-radius: 5px;
+.creators-level0 > .creator-body{
+	border: 2px solid #edc754;
+    border-radius: 10px;
+    padding: 10px;
 }
 .creator-titlediv {
 	display: flex;
@@ -122,6 +145,7 @@ textarea:focus {
     text-overflow: ellipsis;
     overflow: hidden;
 	width: 100%;
+	max-height: 1.3em;
 }
 .creator-input + .text {
 	margin-top: 10px;
@@ -154,7 +178,7 @@ textarea:focus {
 	text-align: center;
 	box-sizing: border-box;
 	font-size: small;
-	width: 8em;
+	width: 6em;
 }
 .creator-button-remove + .text {
 	margin-top: 10px;
