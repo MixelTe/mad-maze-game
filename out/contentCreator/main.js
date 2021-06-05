@@ -12,7 +12,7 @@ window.apllyData = (data) => {
         console.error("apllyData: data is empty");
         return;
     }
-    apllyData(creator, data, true);
+    apllyData(creator, data, true, sender);
 };
 window.getData = (full = true) => {
     const data = full ? sender.collectData(creator) : creator.getData();
@@ -22,7 +22,10 @@ window.getData = (full = true) => {
 };
 window.getText = () => {
     const data = creator.getData();
+    const dataSender = sender.getInputsData();
     let str = "";
+    str += "Name:\n\t" + dataSender.name + "\n";
+    str += "Comment:\n\t" + dataSender.comment + "\n\n";
     str += data.value + "\n";
     for (let i = 0; i < data.subData.length; i++) {
         const el = data.subData[i];

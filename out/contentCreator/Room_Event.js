@@ -43,11 +43,13 @@ export function restoreData(body) {
     }
     return createEmptyCreator(body);
 }
-export function apllyData(creator, data, trySendData = false) {
+export function apllyData(creator, data, trySendData = false, sender) {
     if (trySendData) {
         const parsedData = JSON.parse(data);
         if (parsedData.author != undefined) {
             setData(creator, sendDataToCreatorData(parsedData));
+            if (sender)
+                sender.setData(parsedData.author);
         }
         else {
             const parsedData2 = parsedData;
