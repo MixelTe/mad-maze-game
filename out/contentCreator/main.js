@@ -5,6 +5,7 @@ import { Sender } from "./sender.js";
 const { body, infDiv, buttonSend, popup } = createPage();
 let creator = restoreData(body);
 let sender = new Sender(infDiv, buttonSend);
+creator.focus();
 restoreSenderData();
 setInterval(saveAllData, 5000);
 window.apllyData = (data) => {
