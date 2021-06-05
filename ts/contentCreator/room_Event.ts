@@ -80,9 +80,9 @@ function sendDataToCreatorData(data: SendData)
 		for (let j = 0; j < el.results.length; j++) {
 			results.push({ value: el.results[j], subData: [] });
 		}
-		actions.push({ value: el.action, subData: results });
+		actions.push({ value: el.text, subData: results });
 	}
-	return { value: data.data.event, subData: actions };
+	return { value: data.data.text, subData: actions };
 }
 function setData(creator: Creator, data: CreatorData)
 {

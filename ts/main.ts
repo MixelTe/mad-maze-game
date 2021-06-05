@@ -130,12 +130,12 @@ async function runOne(funcs: ((tge: TextGameEngine) => Promise<void>)[])
 }
 async function event_text(event: Room_event)
 {
-	tge.print(event.event, true);
+	tge.print(event.text, true);
 	tge.print("Что вы будете делать?");
 	const actions = getRandoms(event.actions, 2);
 	actions.push(getRandom(Actions));
 	const actionsStr: string[] = [];
-	actions.forEach(action => actionsStr.push(action.action));
+	actions.forEach(action => actionsStr.push(action.text));
 	const chosen = await tge.choose(actionsStr);
 	const results = actions[chosen].results;
 	const result = getRandom(results);
@@ -143,11 +143,11 @@ async function event_text(event: Room_event)
 }
 async function event_script(event: Room_event)
 {
-	const script = EventsScripts.get(event.event);
+	const script = EventsScripts.get(event.text);
 	if (script == undefined)
 	{
 		tge.print("В этой комнате нет ничего интересного");
-		console.error(`Unexpected event: ${event.event}`);
+		console.error(`Unexpected event: ${event.text}`);
 	}
 	else
 	{

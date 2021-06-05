@@ -92,7 +92,7 @@ export class Sender
 		const creatorData = creator.getData();
 		const data: Room_event = {
 			type: "text",
-			event: creatorData.value,
+			text: creatorData.value,
 			actions: this.convertToAction(creatorData.subData),
 		}
 		return data;
@@ -107,7 +107,7 @@ export class Sender
 				const el2 = el.subData[j];
 				results.push(el2.value);
 			}
-			converted.push({ action: el.value, results });
+			converted.push({ text: el.value, results });
 		}
 		return converted;
 	}
