@@ -66,6 +66,7 @@ function createPage()
 	const popup = createPopup();
 	document.body.appendChild(Div("main", [
 		Div("header", [
+			Button("remove-button", "×", clear),
 			Div("title", "Cоздание событий"),
 			Button("send-button", "Отправить", openSendPopup),
 		]),
@@ -84,7 +85,6 @@ function createPopup()
 			Div("popup-header", "Отправка нового события"),
 			Div("popup-body", [infDiv]),
 			Div("popup-footer", [
-				Button("popup-button-clear", "Очистить", clear),
 				buttonSend,
 			]),
 			button,
