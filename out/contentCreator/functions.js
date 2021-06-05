@@ -59,6 +59,7 @@ export function TextArea(placeholder = "", classes = []) {
         this.style.height = this.scrollHeight + 'px';
     }
     textarea.addEventListener('input', autoResize);
+    textarea.spellcheck = true;
     return textarea;
 }
 export function capitalize(text) {
