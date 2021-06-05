@@ -15,7 +15,7 @@ async function potions(tge: TextGameEngine)
 		tge.print("Вы решили, что это хороший знак и взяли бутылёк с зельем");
 		await tge.wait();
 		tge.print("Вы залпом выпили зелье и...");
-		await tge.wait(3);
+		await tge.wait(2.5);
 		tge.print(res, true);
 	};
 	const potion_slowness = async () =>
