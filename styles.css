@@ -29,7 +29,7 @@ body {
 .TextGameEngine-window {
 	--transition--: 0.5s;
 	--header-height--: 50px;
-	--wait-height--: 40px;
+	--wait-height--: 30px;
 	position: relative;
 	font-family: Arial, Helvetica, sans-serif;
 	transition-property: background-color, color;
@@ -175,6 +175,7 @@ body {
 	transition-duration: var(--transition--);
 	/* height: calc(100% - var(--header-height--) - var(--wait-height--)); */
 	padding-bottom: 10px;
+	padding-top: 10px;
 	color: var(--color-text--);
 	font-family: monospace;
 	font-size: var(--font-size--);
@@ -199,9 +200,6 @@ body {
 ::-webkit-scrollbar-thumb:hover {
 	background-color: rgba(136, 136, 136);
   	/* background: #555; */
-}
-.TextGameEngine-console-space {
-	flex: 1 1 auto;
 }
 .TextGameEngine-console span {
     white-space: break-spaces;
@@ -330,11 +328,13 @@ body {
 .TextGameEngine-line-option-disabled {
 	cursor: text;
 	border-color: gray;
+	filter: opacity(0.4);
 }
 .TextGameEngine-line-option-chosen {
 	background-color: var(--color-choosen-option--);
 	cursor: text;
 	border-color: gray;
+	filter: opacity(0.5);
 }
 .TextGameEngine-line-break {
 	flex-basis: 100%;

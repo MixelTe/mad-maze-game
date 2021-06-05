@@ -2,7 +2,8 @@ import { NextRoom } from "./next-room.js";
 import { EventsScripts } from "./events-scripts.js";
 import { Actions, Events } from "./events.js";
 import { TextGameEngine, Titles } from "./TextGameEngine.js";
-const Version = "0.3.3";
+import { EndesOfMaze } from "./endes-of-maze.js";
+const Version = "0.3.4";
 const ExitChance = 0.03;
 const ExitMinRoom = 30;
 const ExitMaxRoom = 100;
@@ -32,46 +33,49 @@ async function main() {
     else
         tge.print("Решитесь ли вы войти в лабиринт?", true);
     const chosen = await tge.choose(["&bКонечно да!", "Пожалуй, нет"]);
+    tge.clear();
     if (chosen != 0) {
-        tge.print("Мудрое решение", true);
+        tge.print("Мудрое решение");
         if (runCount > 1)
             tge.print('"Пусть гибнут безумцы", - как вы знаете, говорят местные, когда приключенцы просят провести их через лабиринт');
         else
             tge.print('"Пусть гибнут безумцы", - говорят местные, когда приключенцы просят провести их через лабиринт');
         await tge.wait();
         await reRun();
+        return;
     }
     else {
         agreeCount += 1;
         if (runCount > 1)
-            tge.print('Всё-таки вы решились!', true);
+            tge.print('Всё-таки вы решились!');
         else
-            tge.print('Тогда начнём!', true);
-        tge.print("");
-        tge.print("");
+            tge.print('Тогда начнём!');
         tge.print("");
         tge.print("Вы приехали в небольшую деревеньку возле лабиринта и остановились на ночь у местного фермера");
         tge.print("Весь вечер фермер отговаривал вас от похода в лабиринт");
         tge.print("Вы попросили его показать путь к лабиринту, на что он ответил:");
         tge.print('- Если вам дорога жизнь, &bпоезжайте обратно&c, а в лабиринте пусть гибнут безумцы');
         await tge.wait();
+        tge.clear();
         tge.print("Весь вечер вы думали над его словами");
         tge.print("Настало утро. У вас есть последний шанс отказаться от этой безумной идеи", true);
         tge.print("Вы уверены, что готовы зайти в лабиринт?");
         const chosen = await tge.choose(["&bКонечно да, вперёд!", "Пожалуй, всё-таки нет"]);
+        tge.clear();
         if (chosen != 0) {
             if (agreeCount > 1)
-                tge.print(`Уже ${agreeCount}-й раз вы отказываетесь в последний момент`, true);
+                tge.print(`Уже ${agreeCount}-й раз вы отказываетесь в последний момент`);
             else
-                tge.print("Вы осознали безумность этой затеи, и решили отказаться от неё", true);
+                tge.print("Вы осознали безумность этой затеи, и решили отказаться от неё");
             await tge.wait();
             await reRun();
+            return;
         }
         else {
             if (agreeCount > 1)
-                tge.print("Неужели вы всё-таки решились", true);
+                tge.print("Неужели вы всё-таки решились");
             else
-                tge.print("Вы не отступили от своей затеи", true);
+                tge.print("Вы не отступили от своей затеи");
             tge.print("Прощаясь, фермер спросил:");
             tge.print("- Как записать ваше имя на доске приключенцев?");
             const name = await tge.text(2);
@@ -79,29 +83,34 @@ async function main() {
             tge.print(`Вы ответили: "${name}"`);
             tge.print("Фермер попрощался с вами, и вы пошли к лабиринту");
             await tge.wait();
-            tge.print("У входа в лабиринт вы увидели камень, на нём что-то написанно:", true);
+            tge.clear();
+            tge.print("У входа в лабиринт вы увидели камень, на нём что-то написанно:");
             tge.print("&iВ память о зашедших:");
             const names = getNames();
             tge.print(names);
             tge.print("Дальше было ещё несколько имён ваших предшественников");
             await tge.wait();
+            tge.clear();
             await labyrinth();
         }
     }
     await reRun();
 }
 async function labyrinth() {
-    tge.print();
-    tge.print("Вы зашли в лабиринт", true);
+    tge.print("Вы зашли в лабиринт");
     tge.print("Дверь за вами сразу же захлопнулась");
     tge.print("Вы оглянулись и увидели как дверь постепенно сливается со стеной");
     tge.print("Итак начнём!", true);
     await tge.wait();
+    let i = 0;
     while (continueAdventure()) {
-        for (let i = 0; i < 6; i++)
-            tge.print();
+        i++;
+        tge.clear();
         tge.print("Вы прочитали на стене:");
-        tge.print(`Комната №${rndInt(MaxRoom)}`);
+        if (i < 3)
+            tge.print(`Комната №${i}`);
+        else
+            tge.print(`Комната №${rndInt(MaxRoom)}`);
         const event = getRandom(Events);
         if (event.type == "text")
             await event_text(event);
@@ -110,12 +119,18 @@ async function labyrinth() {
         else
             console.error(`Unexpected event type: ${event.type}`);
         await tge.wait();
-        await toNextRoom();
+        tge.clear();
+        await runOne(NextRoom);
+        await tge.wait();
+        tge.clear();
     }
+    await runOne(EndesOfMaze);
+    await tge.wait();
+    tge.clear();
 }
-async function toNextRoom() {
-    const nextRoom = getRandom(NextRoom);
-    await nextRoom(tge);
+async function runOne(funcs) {
+    const func = getRandom(funcs);
+    await func(tge);
 }
 async function event_text(event) {
     tge.print(event.event, true);
@@ -147,8 +162,8 @@ function continueAdventure() {
     return Math.random() > ExitChance;
 }
 async function reRun() {
-    tge.print();
-    tge.print("Спасибо, что играли в &bБезумный лабиринт&c", true);
+    tge.clear();
+    tge.print("Спасибо, что играли в &bБезумный лабиринт&c");
     if (runCount <= 1) {
         tge.print("В левом верхнем углу есть кнопка &bi&c, возможно, когда-нибудь там будут ссылки на другие игры автора");
         tge.print("Так же там есть ссылка на страницу, где можно добавить новые события в лабиринт.");

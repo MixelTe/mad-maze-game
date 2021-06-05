@@ -9,6 +9,7 @@ export class TextGameEngine {
         this.popup = Div();
         this.styles = new TextStyles();
         this.lines = [];
+        this.tapToCon = "Tap here to continue";
     }
     /**
      * Creates all elements
@@ -17,6 +18,7 @@ export class TextGameEngine {
      */
     init(titles = new Titles(), appendToBody = true) {
         log("TextGameEngine: init");
+        this.tapToCon = titles.tapToCon;
         const themeDiv = Div("TextGameEngine-theme");
         this.mainDiv = Div("TextGameEngine-window", [
             Div("TextGameEngine-main", [
@@ -26,7 +28,6 @@ export class TextGameEngine {
                     themeDiv,
                 ]),
                 Div("TextGameEngine-console", [
-                    Div("TextGameEngine-console-space"),
                     this.linesHolder,
                 ]),
                 this.waitDiv,
@@ -34,9 +35,6 @@ export class TextGameEngine {
             this.createPopup(titles),
         ]);
         themeDiv.appendChild(this.createThemeSwitch());
-        this.waitDiv.appendChild(Div("TextGameEngine-wait-arrowRight"));
-        this.waitDiv.appendChild(Div("TextGameEngine-wait-text", [this.styles.style(titles.tapToCon)]));
-        this.waitDiv.appendChild(Div("TextGameEngine-wait-arrowLeft"));
         for (let i = 0; i < 3; i++)
             this.waitDiv.appendChild(Div("TextGameEngine-wait-bubble"));
         if (appendToBody)
@@ -215,24 +213,9 @@ export class TextGameEngine {
     async wait(seconds = -1) {
         if (seconds < 0) {
             log("TextGameEngine: wait-inf");
-            this.waitDiv.classList.add("TextGameEngine-wait-inf");
-            let promiseResolve;
-            const onClick = () => {
-                this.waitDiv.classList.remove("TextGameEngine-wait-inf");
-                window.removeEventListener("click", onClick);
-                this.mainDiv.removeEventListener("keypress", onKeypress);
-                log("TextGameEngine: wait-inf-%cresolve%c", "color:lime", "");
-                promiseResolve();
-            };
-            const onKeypress = (e) => {
-                if (e.key == "Enter")
-                    onClick();
-            };
-            return new Promise((resolve, reject) => {
-                promiseResolve = resolve;
-                window.addEventListener("keypress", onKeypress);
-                this.waitDiv.addEventListener("click", onClick);
-            });
+            await this.choose([this.tapToCon]);
+            this.clear(1);
+            log("TextGameEngine: wait-inf-%cresolve%c", "color:lime", "");
         }
         else if (seconds > 0) {
             log(`TextGameEngine: wait - %c${seconds}%csec`, "color:#9881f6", "");
@@ -284,7 +267,7 @@ export class Titles {
     constructor(...titles) {
         /**Title of game*/
         this.title = "Text Game Engine";
-        /**Text "Tap to continue" when called TextGameEngine.wait with -1*/
+        /**Text "Tap here to continue" when called TextGameEngine.wait with -1*/
         this.tapToCon = "Tap here to continue";
         /**Game version, displayed in information pop-up.*/
         this.version = `Version: ${version}`;
