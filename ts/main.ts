@@ -184,7 +184,7 @@ function createDescription()
 
 	const a = document.createElement("a");
 	infDiv.appendChild(a);
-	a.href = "https://github.com/MixelTe/";
+	a.href = "https://github.com/MixelTe/mad-maze-game";
 	a.style.textAlign = "center";
 	a.style.width = "100%";
 	a.style.display = "block";
