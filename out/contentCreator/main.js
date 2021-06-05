@@ -19,6 +19,21 @@ window.getData = (full = true) => {
     console.log("Data copied");
     copyText(dataStr);
 };
+window.getText = () => {
+    const data = creator.getData();
+    let str = "";
+    str += data.value + "\n";
+    for (let i = 0; i < data.subData.length; i++) {
+        const el = data.subData[i];
+        str += "\n\t" + el.value + "\n";
+        for (let j = 0; j < el.subData.length; j++) {
+            const el2 = el.subData[j];
+            str += "\t\t" + el2.value + "\n";
+        }
+    }
+    copyText(str);
+    console.log("Data copied");
+};
 function saveData() {
     const data = JSON.stringify(creator.getData());
     localStorage.setItem("contentCreatorData", data);
