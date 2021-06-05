@@ -2,7 +2,7 @@ import { NextRoom } from "./next-room.js";
 import { EventsScripts } from "./events-scripts.js";
 import { Actions, Events } from "./events.js";
 import { TextGameEngine, Titles } from "./TextGameEngine.js";
-const Version = "0.3.1";
+const Version = "0.3.2";
 const ExitChance = 0.03;
 const ExitMinRoom = 30;
 const ExitMaxRoom = 100;
@@ -20,7 +20,7 @@ async function main() {
     tge.clear();
     if (runCount > 1) {
         tge.print("Добро пожаловать снова в &bБезумный лабиринт&c!");
-        tge.print(`Уже ${runCount}-й раз`);
+        tge.print(`(Уже ${runCount}-й раз)`);
     }
     else
         tge.print("Добро пожаловать в &bБезумный лабиринт&c!");
@@ -53,7 +53,7 @@ async function main() {
         tge.print("Вы приехали в небольшую деревеньку возле лабиринта и остановились на ночь у местного фермера");
         tge.print("Весь вечер фермер отговаривал вас от похода в лабиринт");
         tge.print("Вы попросили его показать путь к лабиринту, на что он ответил:");
-        tge.print('- Если вам дорога жизнь &bпоезжайте обратно&c, а в лабиринте пусть гибнут безумцы');
+        tge.print('- Если вам дорога жизнь, &bпоезжайте обратно&c, а в лабиринте пусть гибнут безумцы');
         await tge.wait();
         tge.print("Весь вечер вы думали над его словами");
         tge.print("Настало утро. У вас есть последний шанс отказаться от этой безумной идеи", true);
@@ -73,7 +73,7 @@ async function main() {
             else
                 tge.print("Вы не отступили от своей затеи", true);
             tge.print("Прощаясь, фермер спросил:");
-            tge.print("- Как вас записать на доске приключенцев?");
+            tge.print("- Как записать ваше имя на доске приключенцев?");
             const name = await tge.text(2);
             addName(name);
             tge.print(`Вы ответили: "${name}"`);
@@ -94,7 +94,7 @@ async function labyrinth() {
     tge.print();
     tge.print("Вы зашли в лабиринт", true);
     tge.print("Дверь за вами сразу же захлопнулась");
-    tge.print("Вы оглянулись и увидили как дверь постепенно сливается со стеной");
+    tge.print("Вы оглянулись и увидели как дверь постепенно сливается со стеной");
     tge.print("Итак начнём!", true);
     await tge.wait();
     while (continueAdventure()) {

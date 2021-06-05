@@ -29,7 +29,7 @@ body {
 .TextGameEngine-window {
 	--transition--: 0.5s;
 	--header-height--: 50px;
-	--wait-height--: 30px;
+	--wait-height--: 40px;
 	position: relative;
 	font-family: Arial, Helvetica, sans-serif;
 	transition-property: background-color, color;
@@ -329,10 +329,12 @@ body {
 }
 .TextGameEngine-line-option-disabled {
 	cursor: text;
+	border-color: gray;
 }
 .TextGameEngine-line-option-chosen {
 	background-color: var(--color-choosen-option--);
 	cursor: text;
+	border-color: gray;
 }
 .TextGameEngine-line-break {
 	flex-basis: 100%;
@@ -373,6 +375,43 @@ body {
 .TextGameEngine-wait-text {
 	display: none;
 }
+.TextGameEngine-wait-arrowRight, .TextGameEngine-wait-arrowLeft {
+	--distance--: 10px;
+	transition-property: border-color, transform;
+	transition-duration: var(--transition--), 0.3s;
+	animation: TextGameEngine-arrow-left 0.8s infinite alternate;
+	position: relative;
+	display: inline-block;
+	font-size: 20px;
+	border-color: var(--color-text--);
+	border-style: solid;
+	border-width: 0 0 0.12em 0.12em;
+	transform: rotate(45deg) translateX(var(--distance--)) translateY(calc(0px - var(--distance--)));
+	height: 0.5em;
+	width: 0.5em;
+	margin-right: 0.6em;
+	margin-left: 0.6em;
+	display: none;
+}
+.TextGameEngine-wait-arrowRight::after, .TextGameEngine-wait-arrowLeft::after {
+	transition-property: background-color;
+	transition-duration: var(--transition--);
+    content: "";
+    position: absolute;
+    width: 0.9em;
+    height: 0.12em;
+    background-color: var(--color-text--);
+    transform: rotate(-45deg);
+	left: -0.14em;
+    top: 0.075em;
+}
+.TextGameEngine-wait-arrowRight {
+	animation-name: TextGameEngine-arrow-right;
+    transform: rotate(225deg) translateX(var(--distance--)) translateY(calc(0px - var(--distance--)));
+}
+.TextGameEngine-wait-inf .TextGameEngine-wait-arrowRight, .TextGameEngine-wait-inf .TextGameEngine-wait-arrowLeft {
+	display: block;
+}
 .TextGameEngine-wait-inf .TextGameEngine-wait-text {
 	display: block;
 }
@@ -406,7 +445,16 @@ body {
 		transform: scale(1);
 	}
 }
-
+@keyframes TextGameEngine-arrow-left {
+	to {
+		transform: rotate(45deg) translateX(0px) translateY(0px);
+	}
+}
+@keyframes TextGameEngine-arrow-right {
+	to {
+    	transform: rotate(225deg) translateX(0px) translateY(0px);
+	}
+}
 
 
 
