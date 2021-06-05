@@ -9,6 +9,7 @@ export class TextGameEngine
 	private popup: HTMLDivElement = Div();
 	private styles = new TextStyles();
 	private lines: Line[] = [];
+	private tapToCon = "Tap here to continue";
 
 	/**
 	 * Creates all elements
@@ -18,6 +19,7 @@ export class TextGameEngine
 	public init(titles = new Titles(), appendToBody = true): HTMLDivElement
 	{
 		log("TextGameEngine: init");
+		this.tapToCon = titles.tapToCon;
 		const themeDiv = Div("TextGameEngine-theme");
 		this.mainDiv = Div("TextGameEngine-window", [
 			Div("TextGameEngine-main", [
@@ -27,7 +29,6 @@ export class TextGameEngine
 					themeDiv,
 				]),
 				Div("TextGameEngine-console", [
-					Div("TextGameEngine-console-space"),
 					this.linesHolder,
 				]),
 				this.waitDiv,
@@ -35,9 +36,6 @@ export class TextGameEngine
 			this.createPopup(titles),
 		]);
 		themeDiv.appendChild(this.createThemeSwitch());
-		this.waitDiv.appendChild(Div("TextGameEngine-wait-arrowRight"));
-		this.waitDiv.appendChild(Div("TextGameEngine-wait-text", [this.styles.style(titles.tapToCon)]));
-		this.waitDiv.appendChild(Div("TextGameEngine-wait-arrowLeft"));
 		for (let i = 0; i < 3; i++) this.waitDiv.appendChild(Div("TextGameEngine-wait-bubble"));
 
 		if (appendToBody) document.body.appendChild(this.mainDiv);
@@ -235,26 +233,9 @@ export class TextGameEngine
 		if (seconds < 0)
 		{
 			log("TextGameEngine: wait-inf");
-			this.waitDiv.classList.add("TextGameEngine-wait-inf");
-			let promiseResolve: () => void;
-			const onClick = () =>
-			{
-				this.waitDiv.classList.remove("TextGameEngine-wait-inf");
-				window.removeEventListener("click", onClick);
-				this.mainDiv.removeEventListener("keypress", onKeypress);
-				log("TextGameEngine: wait-inf-%cresolve%c", "color:lime", "");
-				promiseResolve();
-			}
-			const onKeypress = (e: KeyboardEvent) =>
-			{
-				if (e.key == "Enter") onClick();
-			}
-			return new Promise<void>((resolve, reject) =>
-			{
-				promiseResolve = resolve;
-				window.addEventListener("keypress", onKeypress);
-				this.waitDiv.addEventListener("click", onClick);
-			});
+			await this.choose([this.tapToCon]);
+			this.clear(1);
+			log("TextGameEngine: wait-inf-%cresolve%c", "color:lime", "");
 		}
 		else if (seconds > 0)
 		{
@@ -323,7 +304,7 @@ export class Titles
 
 	/**Title of game*/
 	public title = "Text Game Engine";
-	/**Text "Tap to continue" when called TextGameEngine.wait with -1*/
+	/**Text "Tap here to continue" when called TextGameEngine.wait with -1*/
 	public tapToCon = "Tap here to continue";
 	/**Game version, displayed in information pop-up.*/
 	public version = `Version: ${version}`;
