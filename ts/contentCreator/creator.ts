@@ -73,7 +73,14 @@ export class Creator
 					Button("creator-button-add", "Добавить " + options.addText.toLowerCase(), this.addChild.bind(this, false)),
 				]),
 			]);
-			this.addChild();
+			if (options.childrenCount != undefined && options.childrenCount > 1)
+			{
+				for (let i = 0; i < options.childrenCount; i++) this.addChild();
+			}
+			else
+			{
+				this.addChild();
+			}
 		}
 	}
 	public getData()
@@ -197,4 +204,5 @@ export interface CreatorOptions
 	addText: string,
 	collapsible: boolean,
 	child: CreatorOptions | null,
+	childrenCount?: number,
 }
