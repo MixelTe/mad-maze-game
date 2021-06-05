@@ -1,4 +1,5 @@
 import { Creator, CreatorData, CreatorOptions } from "./creator.js";
+import { SendData } from "./sender.js";
 
 export const Room_Event: CreatorOptions = {
 	title: "Введите событие:",
@@ -48,10 +49,39 @@ export function restoreData(body: HTMLDivElement)
 	}
 	return createEmptyCreator(body);
 }
-export function apllyData(creator: Creator, data: string)
+export function apllyData(creator: Creator, data: string, trySendData = false)
 {
-	const parsedData = <CreatorData>JSON.parse(data);
-	setData(creator, parsedData);
+	if (trySendData)
+	{
+		const parsedData = <SendData>JSON.parse(data);
+		if (parsedData.author != undefined)
+		{
+			setData(creator, sendDataToCreatorData(parsedData));
+		}
+		else
+		{
+			const parsedData2 = <CreatorData><any>parsedData;
+			setData(creator, parsedData2);
+		}
+	}
+	else
+	{
+		const parsedData = <CreatorData>JSON.parse(data);
+		setData(creator, parsedData);
+	}
+}
+function sendDataToCreatorData(data: SendData)
+{
+	const actions: CreatorData[] = [];
+	for (let i = 0; i < data.data.actions.length; i++) {
+		const el = data.data.actions[i];
+		const results: CreatorData[] = [];
+		for (let j = 0; j < el.results.length; j++) {
+			results.push({ value: el.results[j], subData: [] });
+		}
+		actions.push({ value: el.action, subData: results });
+	}
+	return { value: data.data.event, subData: actions };
 }
 function setData(creator: Creator, data: CreatorData)
 {

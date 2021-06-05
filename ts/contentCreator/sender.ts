@@ -1,6 +1,6 @@
 import { Room_event } from "../events.js";
 import { Creator, CreatorData } from "./creator.js";
-import { appendTo, Div, TextArea, Span, Button } from "./functions.js";
+import { appendTo, Div, TextArea, Span, Button, copyText } from "./functions.js";
 
 export class Sender
 {
@@ -31,13 +31,7 @@ export class Sender
 	public async send(creator: Creator)
 	{
 		if (this.sent) return;
-		const data: sendData = {
-			author: {
-				name: this.name.value,
-				comment: this.comment.value,
-			},
-			data: this.getData(creator),
-		}
+		const data = this.collectData(creator);
 		// console.log(data);
 		this.showWait();
 		const json = JSON.stringify(data);
@@ -64,6 +58,17 @@ export class Sender
 		{
 			this.hideWait();
 		}
+	}
+	public collectData(creator: Creator)
+	{
+		const data: SendData = {
+			author: {
+				name: this.name.value,
+				comment: this.comment.value,
+			},
+			data: this.getData(creator),
+		}
+		return data;
 	}
 	private showWait()
 	{
@@ -108,7 +113,7 @@ export class Sender
 			Div("text", "К сожалению не удалось отправить данные на сервер :("),
 			Div(["text", "marginTop"], [
 				Span([], "Можете попробовать ещё раз или самостоятельно отправить данные автору: "),
-				Button(["sender-copybutton"], "Копировать данные", this.copyData.bind(this, data)),
+				Button(["sender-copybutton"], "Копировать данные", copyText.bind(this, data)),
 			]),
 			Div(["text", "marginTop"], [
 				a,
@@ -135,18 +140,6 @@ export class Sender
 		const link = `${mainLink}?title=${title}&body=${text}`;
 		return link;
 	}
-	private copyData(data: string)
-	{
-		const el = document.createElement('textarea');
-		el.value = data;
-		el.setAttribute('readonly', '');
-		el.style.position = 'absolute';
-		el.style.left = '-9999px';
-		document.body.appendChild(el);
-		el.select();
-		document.execCommand('copy');
-		document.body.removeChild(el);
-	}
 	private createSpinner()
 	{
 		const parts = 13;
@@ -170,7 +163,7 @@ export class Sender
 		this.infDiv.appendChild(this.mainPage);
 	}
 }
-interface sendData
+export interface SendData
 {
 	author: {
 		name: string,

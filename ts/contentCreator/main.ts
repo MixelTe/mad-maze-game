@@ -1,5 +1,5 @@
 import { ConfirmPopup } from "./confirmPopup.js";
-import { Button, Div } from "./functions.js";
+import { Button, copyText, Div } from "./functions.js";
 import { restoreData, createEmptyCreator, apllyData } from "./Room_Event.js";
 import { Sender } from "./sender.js";
 
@@ -13,6 +13,7 @@ declare global
 	export interface Window
 	{
 		apllyData: (data: string) => void;
+		getData: (full?: boolean) => void;
 	}
 }
 window.apllyData = (data: string) =>
@@ -22,7 +23,14 @@ window.apllyData = (data: string) =>
 		console.error("apllyData: data is empty");
 		return;
 	}
-	apllyData(creator, data);
+	apllyData(creator, data, true);
+}
+window.getData = (full = true) =>
+{
+	const data = full ? sender.collectData(creator) : creator.getData();
+	const dataStr = JSON.stringify(data);
+	console.log("Data copied");
+	copyText(dataStr);
 }
 
 function saveData()
