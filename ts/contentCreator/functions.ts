@@ -49,7 +49,7 @@ export function TextArea(placeholder = "", classes: string | string[] = [])
 	function autoResize(this: HTMLTextAreaElement)
 	{
 		this.style.height = 'auto';
-		this.style.height = this.scrollHeight + 'px';
+		this.style.height = this.scrollHeight + 5 + 'px';
 	}
 	textarea.addEventListener('input', autoResize);
 	textarea.spellcheck = true;

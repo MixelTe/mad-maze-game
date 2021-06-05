@@ -105,7 +105,7 @@ export class Creator
 			this.input.classList.add("emptyfield");
 			return false;
 		}
-		this.input.value = capitalize(this.input.value.trim().replaceAll(/ +/g, " "));
+		this.input.value = capitalize(this.input.value.trim().replace(/ +/g, " "));
 		if (this.creators.length == 0) return true;
 		for (let i = 0; i < this.creators.length; i++)
 		{
