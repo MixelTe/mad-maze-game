@@ -46,11 +46,6 @@ export function TextArea(placeholder = "", classes: string | string[] = [])
 	if (typeof classes == "string") textarea.classList.add(classes);
 	else classes.forEach(cls => textarea.classList.add(cls));
 	textarea.placeholder = placeholder;
-	function autoResize(this: HTMLTextAreaElement)
-	{
-		this.style.height = 'auto';
-		this.style.height = this.scrollHeight + 5 + 'px';
-	}
 	textarea.addEventListener('input', autoResize);
 	textarea.spellcheck = true;
 	return textarea;
@@ -70,4 +65,9 @@ export function copyText(text: string)
 	el.select();
 	document.execCommand('copy');
 	document.body.removeChild(el);
+}
+export function autoResize(this: HTMLTextAreaElement)
+{
+	this.style.height = 'auto';
+	this.style.height = this.scrollHeight + 5 + 'px';
 }
