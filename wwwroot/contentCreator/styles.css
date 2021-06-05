@@ -151,6 +151,9 @@ textarea:focus {
 	border-radius: 5px 5px 0px 0px;
 	border-bottom: 0px;
 	display: block;
+	text-align: center;
+	box-sizing: border-box;
+	font-size: small;
 	width: 8em;
 }
 .creator-button-remove + .text {
@@ -168,7 +171,7 @@ textarea:focus {
 .creators-level0 .creator-botton-add {
 	margin-left: 22px;
 }
-.creator-button-add:hover, .creator-button-remove:focus, .creator-button-add:hover, .creator-button-remove:focus {
+.creator-button-remove:hover, .creator-button-remove:focus, .creator-button-add:hover, .creator-button-add:focus {
 	text-decoration: underline;
 }
 .creator-button-add:active {

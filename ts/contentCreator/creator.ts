@@ -53,9 +53,11 @@ export class Creator
 		]);
 		if (this.level > 0)
 		{
+			const button = Div("creator-button-remove", "Удалить");
+			button.addEventListener("click", this.remove);
 			appendTo(subBody, [
 				Div("creator-removeDiv", [
-					Button("creator-button-remove", "Удалить", this.remove),
+					button,
 				]),
 			]);
 		}
@@ -125,6 +127,7 @@ export class Creator
 			if (toTop) this.creatorsDiv.prepend(child.body);
 			else this.creatorsDiv.appendChild(child.body);
 			this.creators.push(child);
+			child.input.focus();
 			return child;
 		}
 		return null;
@@ -186,6 +189,10 @@ export class Creator
 	public getBody()
 	{
 		return this.body;
+	}
+	public focus()
+	{
+		this.input.focus();
 	}
 }
 
