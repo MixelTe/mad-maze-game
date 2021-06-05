@@ -2,7 +2,7 @@ import { NextRoom } from "./next-room.js";
 import { EventsScripts } from "./events-scripts.js";
 import { Actions, Events } from "./events.js";
 import { TextGameEngine, Titles } from "./TextGameEngine.js";
-const Version = 0.1;
+const Version = "0.3.1";
 const ExitChance = 0.03;
 const ExitMinRoom = 30;
 const ExitMaxRoom = 100;

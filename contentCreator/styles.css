@@ -90,7 +90,7 @@ textarea:focus {
 }
 
 .creator-body {
-	margin-top: 10px;
+	margin-top: 0px;
 }
 .creator-body .creator-body .creator-body {
 	margin-left: 20px;
@@ -103,6 +103,10 @@ textarea:focus {
 }
 .creators {
 	margin-top: 10px;
+}
+.creators-level0 {
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 .creators-level1 {
 	border-left: 2px solid #00bc00;
@@ -119,7 +123,7 @@ textarea:focus {
 	width: 100%;
 }
 .creator-input + .text {
-	margin-top: 5px;
+	margin-top: 10px;
 }
 .creator-colapsed > .creator-subBody {
 	display: none;

@@ -15,6 +15,7 @@ export const Room_Event = {
         subTitleHint: "Например: Крокодил уснул и вы спокойно прошли мимо или Вы уронили молоток на ногу, теперь вы хромаете",
         addText: "результат действия",
         collapsible: true,
+        childrenCount: 2,
         child: {
             title: "",
             hint: "",
@@ -42,25 +43,48 @@ export function restoreData(body) {
     }
     return createEmptyCreator(body);
 }
-export function apllyData(creator, data) {
-    const parsedData = JSON.parse(data);
-    setData(creator, parsedData);
+export function apllyData(creator, data, trySendData = false) {
+    if (trySendData) {
+        const parsedData = JSON.parse(data);
+        if (parsedData.author != undefined) {
+            setData(creator, sendDataToCreatorData(parsedData));
+        }
+        else {
+            const parsedData2 = parsedData;
+            setData(creator, parsedData2);
+        }
+    }
+    else {
+        const parsedData = JSON.parse(data);
+        setData(creator, parsedData);
+    }
+}
+function sendDataToCreatorData(data) {
+    const actions = [];
+    for (let i = 0; i < data.data.actions.length; i++) {
+        const el = data.data.actions[i];
+        const results = [];
+        for (let j = 0; j < el.results.length; j++) {
+            results.push({ value: el.results[j], subData: [] });
+        }
+        actions.push({ value: el.action, subData: results });
+    }
+    return { value: data.data.event, subData: actions };
 }
 function setData(creator, data) {
     creator.setValue(data.value);
     if (data.subData.length > 0) {
         for (let i = 0; i < data.subData.length; i++) {
             const subData = data.subData[i];
-            if (i == 0) {
-                const child = creator.getChild(0);
-                if (child) {
-                    setData(child, subData);
-                    continue;
-                }
+            const child = creator.getChild(i);
+            if (child) {
+                setData(child, subData);
             }
-            const subCreator = creator.createChild();
-            if (subCreator)
-                setData(subCreator, subData);
+            else {
+                const subCreator = creator.createChild();
+                if (subCreator)
+                    setData(subCreator, subData);
+            }
         }
     }
 }

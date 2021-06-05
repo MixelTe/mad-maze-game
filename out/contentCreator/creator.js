@@ -1,5 +1,5 @@
 import { ConfirmPopup } from "./confirmPopup.js";
-import { appendTo, Button, Div, Label, TextArea } from "./functions.js";
+import { appendTo, Button, capitalize, Div, Label, TextArea } from "./functions.js";
 export class Creator {
     constructor(options, parent) {
         this.level = 0;
@@ -63,7 +63,13 @@ export class Creator {
                     Button("creator-button-add", "Добавить " + options.addText.toLowerCase(), this.addChild.bind(this, false)),
                 ]),
             ]);
-            this.addChild();
+            if (options.childrenCount != undefined && options.childrenCount > 1) {
+                for (let i = 0; i < options.childrenCount; i++)
+                    this.addChild();
+            }
+            else {
+                this.addChild();
+            }
         }
     }
     getData() {
@@ -83,6 +89,7 @@ export class Creator {
             this.input.classList.add("emptyfield");
             return false;
         }
+        this.input.value = capitalize(this.input.value.trim().replaceAll(/ +/g, " "));
         if (this.creators.length == 0)
             return true;
         for (let i = 0; i < this.creators.length; i++) {
