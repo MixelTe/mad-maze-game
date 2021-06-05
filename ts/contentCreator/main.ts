@@ -33,10 +33,12 @@ window.apllyData = (data: string) =>
 	creator = createEmptyCreator(body);
 	apllyData(creator, data, true, sender);
 }
-window.getData = (full = true) =>
+window.getData = (onlyEvent = true) =>
 {
-	const data = full ? sender.collectData(creator) : creator.getData();
-	const dataStr = JSON.stringify(data);
+	let data = <any>sender.collectData(creator);
+	if (onlyEvent) data = data.data;
+	let dataStr = JSON.stringify(data);
+	if (onlyEvent) dataStr = "\t" + dataStr + ",";
 	console.log("Data copied");
 	copyText(dataStr);
 }
