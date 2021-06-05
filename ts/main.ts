@@ -2,6 +2,7 @@ import { NextRoom } from "./next-room.js";
 import { EventsScripts } from "./events-scripts.js";
 import { Actions, Events, Room_event } from "./events.js";
 import { TextGameEngine, Titles } from "./TextGameEngine.js";
+import { EndesOfMaze } from "./endes-of-maze.js";
 const Version = "0.3.3";
 const ExitChance = 0.03;
 const ExitMinRoom = 30;
@@ -114,15 +115,18 @@ async function labyrinth()
 		else console.error(`Unexpected event type: ${event.type}`);
 		await tge.wait();
 		tge.clear();
-		await toNextRoom();
+		await runOne(NextRoom);
 		await tge.wait();
 		tge.clear();
 	}
+	await runOne(EndesOfMaze);
+	await tge.wait();
+	tge.clear();
 }
-async function toNextRoom()
+async function runOne(funcs: ((tge: TextGameEngine) => Promise<void>)[])
 {
-	const nextRoom = getRandom(NextRoom);
-	await nextRoom(tge);
+	const func = getRandom(funcs);
+	await func(tge);
 }
 async function event_text(event: Room_event)
 {
