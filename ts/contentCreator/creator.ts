@@ -1,5 +1,5 @@
 import { ConfirmPopup } from "./confirmPopup.js";
-import { appendTo, Button, Div, Label, TextArea } from "./functions.js";
+import { appendTo, Button, capitalize, Div, Label, TextArea } from "./functions.js";
 
 export class Creator
 {
@@ -96,6 +96,7 @@ export class Creator
 			this.input.classList.add("emptyfield");
 			return false;
 		}
+		this.input.value = capitalize(this.input.value.trim().replaceAll(/ +/g, " "));
 		if (this.creators.length == 0) return true;
 		for (let i = 0; i < this.creators.length; i++)
 		{
