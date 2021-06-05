@@ -1,4 +1,4 @@
-const version = "1.3";
+const version = "1.3.1";
 /** Engine for text games*/
 export class TextGameEngine
 {
@@ -35,7 +35,9 @@ export class TextGameEngine
 			this.createPopup(titles),
 		]);
 		themeDiv.appendChild(this.createThemeSwitch());
+		this.waitDiv.appendChild(Div("TextGameEngine-wait-arrowRight"));
 		this.waitDiv.appendChild(Div("TextGameEngine-wait-text", [this.styles.style(titles.tapToCon)]));
+		this.waitDiv.appendChild(Div("TextGameEngine-wait-arrowLeft"));
 		for (let i = 0; i < 3; i++) this.waitDiv.appendChild(Div("TextGameEngine-wait-bubble"));
 
 		if (appendToBody) document.body.appendChild(this.mainDiv);
