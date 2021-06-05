@@ -5,7 +5,8 @@ import { Sender } from "./sender.js";
 const { body, infDiv, buttonSend, popup } = createPage();
 let creator = restoreData(body);
 let sender = new Sender(infDiv, buttonSend);
-setInterval(saveData, 5000);
+restoreSenderData();
+setInterval(saveAllData, 5000);
 window.apllyData = (data) => {
     if (data == undefined) {
         console.error("apllyData: data is empty");
@@ -108,4 +109,37 @@ function recreateAll() {
     creator = createEmptyCreator(body);
     sender = new Sender(infDiv, buttonSend);
     closeSendPopup();
+    clearSenderData();
+    restoreSenderData();
+}
+function saveAllData() {
+    const senderData = sender.getInputsData();
+    localStorage.setItem("senderData", JSON.stringify(senderData));
+    saveData();
+}
+function restoreSenderData() {
+    const senderData = localStorage.getItem("senderData");
+    ;
+    if (senderData != null) {
+        try {
+            const data = JSON.parse(senderData);
+            sender.setData(data);
+        }
+        catch {
+        }
+    }
+}
+function clearSenderData() {
+    const senderData = localStorage.getItem("senderData");
+    ;
+    if (senderData != null) {
+        try {
+            const data = JSON.parse(senderData);
+            data.comment = "";
+            localStorage.setItem("senderData", JSON.stringify(data));
+        }
+        catch {
+            localStorage.removeItem("senderData");
+        }
+    }
 }

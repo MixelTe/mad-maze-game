@@ -46,6 +46,13 @@ export class Sender {
             this.hideWait();
         }
     }
+    setData(data) {
+        this.name.value = data.name;
+        this.comment.value = data.comment;
+    }
+    getInputsData() {
+        return { name: this.name.value, comment: this.comment.value };
+    }
     collectData(creator) {
         const data = {
             author: {
