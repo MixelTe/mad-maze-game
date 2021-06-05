@@ -8,11 +8,15 @@ let sender = new Sender(infDiv, buttonSend);
 creator.focus();
 restoreSenderData();
 setInterval(saveAllData, 5000);
+console.log("apllyData(data: string)");
+console.log("getData(full?: boolean) - json");
+console.log("getText() - text");
 window.apllyData = (data) => {
     if (data == undefined) {
         console.error("apllyData: data is empty");
         return;
     }
+    creator = createEmptyCreator(body);
     apllyData(creator, data, true, sender);
 };
 window.getData = (full = true) => {
