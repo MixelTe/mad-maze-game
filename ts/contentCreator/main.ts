@@ -11,7 +11,8 @@ restoreSenderData();
 setInterval(saveAllData, 5000);
 
 console.log("apllyData(data: string)");
-console.log("getData(full?: boolean) - json");
+console.log("getData(withAuthor = false) - json");
+console.log("getData(actionIndex: number) - json");
 console.log("getText() - text");
 
 declare global
@@ -19,7 +20,7 @@ declare global
 	export interface Window
 	{
 		apllyData: (data: string) => void;
-		getData: (full?: boolean) => void;
+		getData: (withAuthor_actionIndex?: boolean | number) => void;
 		getText: () => void;
 	}
 }
@@ -33,12 +34,24 @@ window.apllyData = (data: string) =>
 	creator = createEmptyCreator(body);
 	apllyData(creator, data, true, sender);
 }
-window.getData = (onlyEvent = true) =>
+window.getData = (withAuthor_actionIndex: boolean | number = false) =>
 {
 	let data = <any>sender.collectData(creator);
-	if (onlyEvent) data = data.data;
+	if (typeof withAuthor_actionIndex == "boolean")
+	{
+		if (!withAuthor_actionIndex) data = data.data;
+	}
+	else if (typeof withAuthor_actionIndex == "number")
+	{
+		data = data.data.actions[withAuthor_actionIndex];
+	}
+	else
+	{
+		console.log(`${withAuthor_actionIndex} is't bool or number`);
+		return;
+	}
 	let dataStr = JSON.stringify(data);
-	if (onlyEvent) dataStr = "\t" + dataStr + ",";
+	if (withAuthor_actionIndex != false) dataStr = "\t" + dataStr + ",";
 	console.log("Data copied");
 	copyText(dataStr);
 }
