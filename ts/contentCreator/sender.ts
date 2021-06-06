@@ -38,7 +38,7 @@ export class Sender
 		let r;
 		try
 		{
-			r = await fetch("URL_OF_SERVER", {
+			r = await fetch("http://mixel.somee.com/api", {
 				method: "POST",
 				headers: {
 					"Content-Type": "text/json",
