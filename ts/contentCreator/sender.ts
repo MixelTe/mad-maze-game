@@ -30,7 +30,6 @@ export class Sender
 
 	public async send(creator: Creator)
 	{
-		if (this.sent) return;
 		const data = this.collectData(creator);
 		// console.log(data);
 		this.showWait();
@@ -49,6 +48,7 @@ export class Sender
 			{
 				throw new Error(`service api call failed (text) status: ${r.status}`);
 			}
+			this.sent = true;
 			this.showOnSentPage();
 		}
 		catch {
@@ -137,9 +137,10 @@ export class Sender
 		appendTo(this.infDiv, [
 			Div("text", "Новое событие отправленно!"),
 			Div(["text", "marginTop"], "Возможно оно будет добавленно в следующей версии игры"),
+			Div(["text", "marginTop"], "Можете вернутся к редакированию"),
+			Div(["text", "marginTop"], "В верхнем левом углу есть кнопка, которая стриает всё, что вы ввели"),
 		]);
-		this.sent = true;
-		this.buttonSend.innerText = "Создать ещё одно событие";
+		this.buttonSend.innerText = "Вернутся к редактированию";
 	}
 	private createLinkToIssue(data: string)
 	{
@@ -170,6 +171,7 @@ export class Sender
 		this.buttonSend.innerText = "Отправить";
 		this.infDiv.innerHTML = "";
 		this.infDiv.appendChild(this.mainPage);
+		this.sent = false;
 	}
 }
 export interface SendData

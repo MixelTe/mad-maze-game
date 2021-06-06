@@ -149,16 +149,14 @@ function closeSendPopup()
 {
 	popup.classList.remove("popup-show");
 	sender.onPopupClose();
-	if (sender.sent) recreateAll();
 }
 function send()
 {
-	if (sender.sent) recreateAll();
+	if (sender.sent) closeSendPopup();
 	else sender.send(creator);
 }
 async function clear()
 {
-	if (sender.sent) return recreateAll();
 	if (await new ConfirmPopup("удалить всё").ask())
 	{
 		if (await new ConfirmPopup("удалить всё насовсем!", true).ask())
