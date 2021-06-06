@@ -242,9 +242,20 @@ async function dragDrop(div: HTMLDivElement, e: DragEvent)
 	lastFileName = filesList[0].name;
 	const fileText = await filesList[0].text();
 
-	creator = createEmptyCreator(body);
-	applyData(creator, fileText, true, sender);
-	creator.focus();
+	const oldCreator = creator;
+	try
+	{
+		creator = createEmptyCreator(body);
+		applyData(creator, fileText, true, sender);
+		creator.focus();
+	}
+	catch (e)
+	{
+		creator = oldCreator;
+		body.innerHTML = "";
+		body.appendChild(creator.getBody());
+		console.error(e);
+	}
 }
 function downloadFile(filename: string, text: string)
 {
