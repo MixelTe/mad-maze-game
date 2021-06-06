@@ -94,6 +94,7 @@ export class Creator
 	}
 	public checkData()
 	{
+		this.input.value = capitalize(this.input.value.trim().replace(/ +/g, " "));
 		if (this.input.value == "")
 		{
 			if (this.colapsed) this.colapse();
@@ -105,7 +106,6 @@ export class Creator
 			this.input.classList.add("emptyfield");
 			return false;
 		}
-		this.input.value = capitalize(this.input.value.trim().replace(/ +/g, " "));
 		if (this.creators.length == 0) return true;
 		for (let i = 0; i < this.creators.length; i++)
 		{
@@ -164,6 +164,7 @@ export class Creator
 	}
 	private isEmpty()
 	{
+		this.input.value = this.input.value.trim().replace(/ +/g, " ");
 		if (this.input.value != "") return false;
 		if (this.creators.length == 0) return true;
 		for (let i = 0; i < this.creators.length; i++)

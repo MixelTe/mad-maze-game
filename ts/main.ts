@@ -3,7 +3,7 @@ import { EventsScripts } from "./events-scripts.js";
 import { Actions, Events, Room_event } from "./events.js";
 import { TextGameEngine, Titles } from "./TextGameEngine.js";
 import { EndesOfMaze } from "./endes-of-maze.js";
-const Version = "0.3.4";
+const Version = "0.4";
 const ExitChance = 0.03;
 const ExitMinRoom = 30;
 const ExitMaxRoom = 100;
