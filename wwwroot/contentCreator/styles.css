@@ -420,3 +420,25 @@ textarea:focus {
     box-shadow: gray 0px 0px 10px;
 	animation: 1s linear -1s infinite normal none running spinner-line-fade-quick;
 }
+
+.dragNdrop {
+	transition-property: background-color;
+	transition-duration: 0.5s;
+	background-color: transparent;
+	z-index: 15;
+}
+.dragNdrop-show {
+	background-color: rgba(250, 235, 215, 0.6);
+	visibility: visible;
+}
+.dragNdrop-text {
+	transition-property: color;
+	transition-duration: 0.5s;
+	font-size: xx-large;
+	text-shadow: 0px 0px 8px #00ffbf;
+	pointer-events: none;
+	color: transparent;
+}
+.dragNdrop-show .dragNdrop-text {
+	color: #002cff;
+}

@@ -84,6 +84,10 @@ function createPage()
 {
 	const body = Div("body");
 	const popup = createPopup();
+	const dragNdrop = Div(["dragNdrop", "popup"], [Div("dragNdrop-text", "Apply data")]);
+	dragNdrop.addEventListener("dragleave", dragleave.bind(null, dragNdrop));
+	dragNdrop.addEventListener("drop", dragDrop.bind(null, dragNdrop));
+	document.body.addEventListener("dragover", dragover.bind(null, dragNdrop));
 	document.body.appendChild(Div("main", [
 		Div("header", [
 			Button("remove-button", "×", clear),
@@ -92,6 +96,7 @@ function createPage()
 		]),
 		body,
 		popup.popup,
+		dragNdrop,
 	]));
 	return { body, infDiv: popup.infDiv, buttonSend: popup.buttonSend, popup: popup.popup };
 }
@@ -196,4 +201,35 @@ function clearSenderData()
 			localStorage.removeItem("senderData");
 		}
 	}
+}
+
+function dragleave(div: HTMLDivElement)
+{
+	div.classList.remove("dragNdrop-show");
+}
+function dragover(div: HTMLDivElement, e: DragEvent)
+{
+	e.stopPropagation();
+	e.preventDefault();
+	div.classList.add("dragNdrop-show");
+	const dragData = e.dataTransfer;
+	if (dragData == null) return;
+	dragData.dropEffect = 'copy';
+}
+
+async function dragDrop(div: HTMLDivElement, e: DragEvent)
+{
+	e.stopPropagation();
+	e.preventDefault();
+	div.classList.remove("dragNdrop-show");
+
+	const dragData = e.dataTransfer;
+	if (dragData == null) return;
+	const filesList = dragData.files;
+	if (filesList == null) return;
+	if (filesList[0] == null) return;
+	const fileText = await filesList[0].text();
+
+	creator = createEmptyCreator(body);
+	apllyData(creator, fileText, true, sender);
 }

@@ -37,8 +37,7 @@ export function restoreData(body: HTMLDivElement)
 	{
 		try
 		{
-			const creator = new Creator(Room_Event);
-			body.appendChild(creator.getBody());
+			const creator = createEmptyCreator(body);
 			apllyData(creator, data);
 			return creator;
 		}
