@@ -19,15 +19,13 @@ export class Sender {
         this.waitDiv.appendChild(this.createSpinner());
     }
     async send(creator) {
-        if (this.sent)
-            return;
         const data = this.collectData(creator);
         // console.log(data);
         this.showWait();
         const json = JSON.stringify(data);
         let r;
         try {
-            r = await fetch("URL_OF_SERVER", {
+            r = await fetch("http://mixel.somee.com/api", {
                 method: "POST",
                 headers: {
                     "Content-Type": "text/json",
@@ -37,6 +35,7 @@ export class Sender {
             if (!r.ok) {
                 throw new Error(`service api call failed (text) status: ${r.status}`);
             }
+            this.sent = true;
             this.showOnSentPage();
         }
         catch {
@@ -115,9 +114,10 @@ export class Sender {
         appendTo(this.infDiv, [
             Div("text", "Новое событие отправленно!"),
             Div(["text", "marginTop"], "Возможно оно будет добавленно в следующей версии игры"),
+            Div(["text", "marginTop"], "Можете вернутся к редакированию"),
+            Div(["text", "marginTop"], "В верхнем левом углу есть кнопка, которая стриает всё, что вы ввели"),
         ]);
-        this.sent = true;
-        this.buttonSend.innerText = "Создать ещё одно событие";
+        this.buttonSend.innerText = "Вернутся к редактированию";
     }
     createLinkToIssue(data) {
         const mainLink = "https://github.com/MixelTe/mad-maze-game/issues/new";
@@ -144,5 +144,6 @@ export class Sender {
         this.buttonSend.innerText = "Отправить";
         this.infDiv.innerHTML = "";
         this.infDiv.appendChild(this.mainPage);
+        this.sent = false;
     }
 }

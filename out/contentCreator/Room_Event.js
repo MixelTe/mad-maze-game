@@ -32,9 +32,8 @@ export function restoreData(body) {
     const data = localStorage.getItem("contentCreatorData");
     if (data != null) {
         try {
-            const creator = new Creator(Room_Event);
-            body.appendChild(creator.getBody());
-            apllyData(creator, data);
+            const creator = createEmptyCreator(body);
+            applyData(creator, data);
             return creator;
         }
         catch (er) {
@@ -43,7 +42,7 @@ export function restoreData(body) {
     }
     return createEmptyCreator(body);
 }
-export function apllyData(creator, data, trySendData = false, sender) {
+export function applyData(creator, data, trySendData = false, sender) {
     if (trySendData) {
         const parsedData = JSON.parse(data);
         if (parsedData.author != undefined) {
