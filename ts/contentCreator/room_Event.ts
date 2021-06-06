@@ -9,7 +9,7 @@ export const Room_Event: CreatorOptions = {
 	subTitleHint: "Например: Погладить крокодила или Взять молоток",
 	addText: "действие",
 	collapsible: false,
-		child: {
+	child: {
 		title: "Введите действие:",
 		hint: "",
 		placeholder: "Действие",
@@ -38,7 +38,7 @@ export function restoreData(body: HTMLDivElement)
 		try
 		{
 			const creator = createEmptyCreator(body);
-			apllyData(creator, data);
+			applyData(creator, data);
 			return creator;
 		}
 		catch (er)
@@ -48,7 +48,7 @@ export function restoreData(body: HTMLDivElement)
 	}
 	return createEmptyCreator(body);
 }
-export function apllyData(creator: Creator, data: string, trySendData = false, sender?: Sender)
+export function applyData(creator: Creator, data: string, trySendData = false, sender?: Sender)
 {
 	if (trySendData)
 	{
@@ -73,10 +73,12 @@ export function apllyData(creator: Creator, data: string, trySendData = false, s
 function sendDataToCreatorData(data: SendData)
 {
 	const actions: CreatorData[] = [];
-	for (let i = 0; i < data.data.actions.length; i++) {
+	for (let i = 0; i < data.data.actions.length; i++)
+	{
 		const el = data.data.actions[i];
 		const results: CreatorData[] = [];
-		for (let j = 0; j < el.results.length; j++) {
+		for (let j = 0; j < el.results.length; j++)
+		{
 			results.push({ value: el.results[j], subData: [] });
 		}
 		actions.push({ value: el.text, subData: results });
@@ -88,7 +90,8 @@ function setData(creator: Creator, data: CreatorData)
 	creator.setValue(data.value);
 	if (data.subData.length > 0)
 	{
-		for (let i = 0; i < data.subData.length; i++) {
+		for (let i = 0; i < data.subData.length; i++)
+		{
 			const subData = data.subData[i];
 			const child = creator.getChild(i);
 			if (child)

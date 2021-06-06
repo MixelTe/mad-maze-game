@@ -1,6 +1,6 @@
 import { ConfirmPopup } from "./confirmPopup.js";
 import { Button, copyText, Div } from "./functions.js";
-import { restoreData, createEmptyCreator, apllyData } from "./Room_Event.js";
+import { restoreData, createEmptyCreator, applyData } from "./Room_Event.js";
 import { Sender } from "./sender.js";
 
 const { body, infDiv, buttonSend, popup } = createPage();
@@ -10,7 +10,7 @@ creator.focus();
 restoreSenderData();
 setInterval(saveAllData, 5000);
 
-console.log("apllyData(data: string)");
+console.log("applyData(data: string)");
 console.log("getData(withAuthor = false) - json");
 console.log("getData(actionIndex: number) - json");
 console.log("getText() - text");
@@ -19,20 +19,20 @@ declare global
 {
 	export interface Window
 	{
-		apllyData: (data: string) => void;
+		applyData: (data: string) => void;
 		getData: (withAuthor_actionIndex?: boolean | number) => void;
 		getText: () => void;
 	}
 }
-window.apllyData = (data: string) =>
+window.applyData = (data: string) =>
 {
 	if (data == undefined)
 	{
-		console.error("apllyData: data is empty");
+		console.error("applyData: data is empty");
 		return;
 	}
 	creator = createEmptyCreator(body);
-	apllyData(creator, data, true, sender);
+	applyData(creator, data, true, sender);
 }
 window.getData = (withAuthor_actionIndex: boolean | number = false) =>
 {
@@ -63,10 +63,12 @@ window.getText = () =>
 	str += "Name:\n\t" + dataSender.name + "\n";
 	str += "Comment:\n\t" + dataSender.comment + "\n\n";
 	str += data.value + "\n";
-	for (let i = 0; i < data.subData.length; i++) {
+	for (let i = 0; i < data.subData.length; i++)
+	{
 		const el = data.subData[i];
 		str += "\n\t" + el.value + "\n";
-		for (let j = 0; j < el.subData.length; j++) {
+		for (let j = 0; j < el.subData.length; j++)
+		{
 			const el2 = el.subData[j];
 			str += "\t\t" + el2.value + "\n";
 		}
@@ -231,5 +233,5 @@ async function dragDrop(div: HTMLDivElement, e: DragEvent)
 	const fileText = await filesList[0].text();
 
 	creator = createEmptyCreator(body);
-	apllyData(creator, fileText, true, sender);
+	applyData(creator, fileText, true, sender);
 }
