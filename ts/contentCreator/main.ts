@@ -10,10 +10,12 @@ creator.focus();
 restoreSenderData();
 setInterval(saveAllData, 5000);
 
+let lastFileName = "event.json";
 console.log("applyData(data: string)");
 console.log("getData(withAuthor = false) - json");
 console.log("getData(actionIndex: number) - json");
 console.log("getText() - text");
+console.log("saveData(fileName?: string)");
 
 declare global
 {
@@ -22,6 +24,7 @@ declare global
 		applyData: (data: string) => void;
 		getData: (withAuthor_actionIndex?: boolean | number) => void;
 		getText: () => void;
+		saveData: (fileName?: string) => void;
 	}
 }
 window.applyData = (data: string) =>
@@ -33,6 +36,7 @@ window.applyData = (data: string) =>
 	}
 	creator = createEmptyCreator(body);
 	applyData(creator, data, true, sender);
+	creator.focus();
 }
 window.getData = (withAuthor_actionIndex: boolean | number = false) =>
 {
@@ -75,6 +79,12 @@ window.getText = () =>
 	}
 	copyText(str);
 	console.log("Data copied");
+}
+window.saveData = (fileName?: string) =>
+{
+	const data = sender.collectData(creator);
+	const dataStr = JSON.stringify(data);
+	downloadFile(fileName || lastFileName, dataStr);
 }
 
 function saveData()
@@ -218,7 +228,6 @@ function dragover(div: HTMLDivElement, e: DragEvent)
 	if (dragData == null) return;
 	dragData.dropEffect = 'copy';
 }
-
 async function dragDrop(div: HTMLDivElement, e: DragEvent)
 {
 	e.stopPropagation();
@@ -230,8 +239,23 @@ async function dragDrop(div: HTMLDivElement, e: DragEvent)
 	const filesList = dragData.files;
 	if (filesList == null) return;
 	if (filesList[0] == null) return;
+	lastFileName = filesList[0].name;
 	const fileText = await filesList[0].text();
 
 	creator = createEmptyCreator(body);
 	applyData(creator, fileText, true, sender);
+	creator.focus();
+}
+function downloadFile(filename: string, text: string)
+{
+	var el = document.createElement('a');
+	el.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+	el.setAttribute('download', filename);
+
+	el.style.display = 'none';
+	document.body.appendChild(el);
+
+	el.click();
+
+	document.body.removeChild(el);
 }
