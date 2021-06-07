@@ -195,7 +195,8 @@ function createDescription()
 	a1.innerText = "сюда";
 	const span2 = document.createElement("span");
 	div2.appendChild(span2);
-	span2.innerText = ", то что вы напишете может быть добавленно в следующей вирсии игры";
+	span2.innerText = ", то что вы напишете может быть добавленно в следующей версии игры.";
+	checkServer(a1);
 
 	const a = document.createElement("a");
 	infDiv.appendChild(a);
