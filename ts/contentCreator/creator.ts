@@ -128,6 +128,7 @@ export class Creator
 			else this.creatorsDiv.appendChild(child.body);
 			this.creators.push(child);
 			child.input.focus();
+			child.input.scrollIntoView({ behavior: "smooth", block: "center" });
 			return child;
 		}
 		return null;
