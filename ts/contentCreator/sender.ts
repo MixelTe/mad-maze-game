@@ -37,8 +37,7 @@ export class Sender
 		let r;
 		try
 		{
-			const time = encodeURI(new Date().toUTCString())
-			r = await fetch(`http://mixel.somee.com/api?time=${time}`, {
+			r = await fetch("http://mixel.somee.com/api", {
 				method: "POST",
 				headers: {
 					"Content-Type": "text/json",
