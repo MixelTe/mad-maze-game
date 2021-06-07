@@ -442,3 +442,27 @@ textarea:focus {
 .dragNdrop-show .dragNdrop-text {
 	color: #002cff;
 }
+
+.popup-small {
+	position: fixed;
+	bottom: 10px;
+	left: 0px;
+	right: 0px;
+	opacity: 0;
+	transition: opacity 500ms;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.popup-small div {
+	border-radius: 10px;
+	padding: 5px;
+	font-size: large;
+	background-color: rgba(0, 0, 0, 0.6);
+	color: white;
+	width: max-content;
+}
+.popup-small-show {
+	transition: opacity 250ms;
+	opacity: 1;
+}

@@ -120,9 +120,10 @@ export class Sender
 		a.target = "_blank";
 		appendTo(this.infDiv, [
 			Div("text", "К сожалению не удалось отправить данные на сервер :("),
+			Div(["text"], "По возможности сообщите об этом автору"),
 			Div(["text", "marginTop"], [
 				Span([], "Можете попробовать ещё раз или самостоятельно отправить данные автору: "),
-				Button(["sender-copybutton"], "Копировать данные", copyText.bind(this, data)),
+				Button(["sender-copybutton"], "Копировать данные", this.copyText.bind(this, data)),
 			]),
 			Div(["text", "marginTop"], [
 				a,
@@ -172,6 +173,17 @@ export class Sender
 		this.infDiv.innerHTML = "";
 		this.infDiv.appendChild(this.mainPage);
 		this.sent = false;
+	}
+	private copyText(text: string)
+	{
+		copyText(text);
+		const popup = Div(["popup-small", "popup-small-show"], [Div([], "Скопировано")]);
+		document.body.appendChild(popup);
+		setTimeout(() =>
+		{
+			popup.classList.remove("popup-small-show");
+			setTimeout(() => { document.body.removeChild(popup); }, 500);
+		}, 2000);
 	}
 }
 export interface SendData
