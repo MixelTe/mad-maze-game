@@ -98,9 +98,10 @@ export class Sender {
         a.target = "_blank";
         appendTo(this.infDiv, [
             Div("text", "К сожалению не удалось отправить данные на сервер :("),
+            Div(["text"], "По возможности сообщите об этом автору"),
             Div(["text", "marginTop"], [
                 Span([], "Можете попробовать ещё раз или самостоятельно отправить данные автору: "),
-                Button(["sender-copybutton"], "Копировать данные", copyText.bind(this, data)),
+                Button(["sender-copybutton"], "Копировать данные", this.copyText.bind(this, data)),
             ]),
             Div(["text", "marginTop"], [
                 a,
@@ -115,7 +116,7 @@ export class Sender {
             Div("text", "Новое событие отправленно!"),
             Div(["text", "marginTop"], "Возможно оно будет добавленно в следующей версии игры"),
             Div(["text", "marginTop"], "Можете вернутся к редакированию"),
-            Div(["text", "marginTop"], "В верхнем левом углу есть кнопка, которая стриает всё, что вы ввели"),
+            Div(["text", "marginTop"], "В верхнем левом углу есть кнопка, которая стирает всё, что вы ввели"),
         ]);
         this.buttonSend.innerText = "Вернутся к редактированию";
     }
@@ -145,5 +146,14 @@ export class Sender {
         this.infDiv.innerHTML = "";
         this.infDiv.appendChild(this.mainPage);
         this.sent = false;
+    }
+    copyText(text) {
+        copyText(text);
+        const popup = Div(["popup-small", "popup-small-show"], [Div([], "Скопировано")]);
+        document.body.appendChild(popup);
+        setTimeout(() => {
+            popup.classList.remove("popup-small-show");
+            setTimeout(() => { document.body.removeChild(popup); }, 500);
+        }, 2000);
     }
 }
