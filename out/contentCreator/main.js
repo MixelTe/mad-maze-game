@@ -76,16 +76,16 @@ function createPage() {
     dragNdrop.addEventListener("dragleave", dragleave.bind(null, dragNdrop));
     dragNdrop.addEventListener("drop", dragDrop.bind(null, dragNdrop));
     document.body.addEventListener("dragover", dragover.bind(null, dragNdrop));
-    document.body.appendChild(Div("main", [
-        Div("header", [
-            Button("remove-button", "×", clear),
-            Div("title", "Cоздание событий"),
-            Button("send-button", "Отправить", openSendPopup),
-        ]),
-        body,
-        popup.popup,
-        dragNdrop,
-    ]));
+    document.body.appendChild(Div("main-body", [Div("main", [
+            Div("header", [
+                Button("remove-button", "×", clear),
+                Div("title", "Cоздание событий"),
+                Button("send-button", "Отправить", openSendPopup),
+            ]),
+            body,
+            popup.popup,
+            dragNdrop,
+        ])]));
     return { body, infDiv: popup.infDiv, buttonSend: popup.buttonSend, popup: popup.popup };
 }
 function createPopup() {
