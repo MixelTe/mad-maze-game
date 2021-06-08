@@ -219,11 +219,12 @@ function dragleave(div: HTMLDivElement)
 }
 function dragover(div: HTMLDivElement, e: DragEvent)
 {
+	const dragData = e.dataTransfer;
+	if (dragData == null) return;
+	if (dragData.types.indexOf("Files") < 0) return;
 	e.stopPropagation();
 	e.preventDefault();
 	div.classList.add("dragNdrop-show");
-	const dragData = e.dataTransfer;
-	if (dragData == null) return;
 	dragData.dropEffect = 'copy';
 }
 async function dragDrop(div: HTMLDivElement, e: DragEvent)
