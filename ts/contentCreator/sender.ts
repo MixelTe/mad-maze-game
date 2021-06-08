@@ -21,7 +21,7 @@ export class Sender
 		this.mainPage = Div([], [
 			Div("text", "Введите ваше имя (если хотите):"),
 			this.name,
-			Div("text", "Сюда можно написать коментарий к событию:"),
+			Div("text", "Сюда можно написать комментарий к событию:"),
 			this.comment,
 		]);
 		infDiv.appendChild(this.mainPage);

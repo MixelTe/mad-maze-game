@@ -5,10 +5,10 @@ import { TextGameEngine, Titles } from "./TextGameEngine.js";
 import { EndesOfMaze } from "./endes-of-maze.js";
 import { Tests } from "./tests.js";
 const Version = "0.4.2";
-const ExitChance = 0.03;
-const ExitMinRoom = 30;
-const ExitMaxRoom = 100;
-const MaxRoom = 100000;
+const ExitChance = 0.04;
+const ExitMinRoom = 15;
+const ExitMaxRoom = 50;
+const MaxRoom = 10000;
 
 let runCount = 0;
 let agreeCount = 0;
@@ -111,7 +111,7 @@ async function labyrinth()
 	{
 		i++;
 		tge.clear();
-		tge.print("Вы прочитали на стене:");
+		tge.print("Вы прочитали на табличке:");
 		if (i < 3) tge.print(`Комната №${i}`);
 		else tge.print(`Комната №${rndInt(MaxRoom)}`);
 		const event = getRandom(Events);
@@ -165,6 +165,7 @@ async function event_script(event: Room_event)
 }
 function continueAdventure()
 {
+	roomCount++;
 	if (roomCount < ExitMinRoom) return true;
 	if (roomCount >= ExitMaxRoom) return false;
 	return Math.random() > ExitChance;
