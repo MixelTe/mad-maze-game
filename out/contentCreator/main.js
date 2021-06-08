@@ -178,12 +178,14 @@ function dragleave(div) {
     div.classList.remove("dragNdrop-show");
 }
 function dragover(div, e) {
-    e.stopPropagation();
-    e.preventDefault();
-    div.classList.add("dragNdrop-show");
     const dragData = e.dataTransfer;
     if (dragData == null)
         return;
+    if (dragData.types.indexOf("Files") < 0)
+        return;
+    e.stopPropagation();
+    e.preventDefault();
+    div.classList.add("dragNdrop-show");
     dragData.dropEffect = 'copy';
 }
 async function dragDrop(div, e) {

@@ -3,11 +3,11 @@ import { EventsScripts } from "./events-scripts.js";
 import { Actions, Events } from "./events.js";
 import { TextGameEngine, Titles } from "./TextGameEngine.js";
 import { EndesOfMaze } from "./endes-of-maze.js";
-const Version = "0.4.2";
-const ExitChance = 0.03;
-const ExitMinRoom = 30;
-const ExitMaxRoom = 100;
-const MaxRoom = 100000;
+const Version = "0.4.3";
+const ExitChance = 0.04;
+const ExitMinRoom = 15;
+const ExitMaxRoom = 50;
+const MaxRoom = 10000;
 let runCount = 0;
 let agreeCount = 0;
 let roomCount = 0;
@@ -16,6 +16,11 @@ tge.init(new Titles("Безумный лабиринт", "Нажмите сюд�
 createDescription();
 // labyrinth();
 main();
+// new Tests(tge, runEvent);
+// new Tests(tge, runEvent).testEvent(Events[0]);
+// new Tests(tge, runEvent).printEvent(Events[0]);
+// NextRoom[0](tge);
+// EndesOfMaze[0](tge);
 async function main() {
     runCount += 1;
     tge.clear();
@@ -106,18 +111,13 @@ async function labyrinth() {
     while (continueAdventure()) {
         i++;
         tge.clear();
-        tge.print("Вы прочитали на стене:");
+        tge.print("Вы прочитали на табличке:");
         if (i < 3)
             tge.print(`Комната №${i}`);
         else
             tge.print(`Комната №${rndInt(MaxRoom)}`);
         const event = getRandom(Events);
-        if (event.type == "text")
-            await event_text(event);
-        else if (event.type == "script")
-            await event_script(event);
-        else
-            console.error(`Unexpected event type: ${event.type}`);
+        await runEvent(event);
         await tge.wait();
         tge.clear();
         await runOne(NextRoom);
@@ -131,6 +131,14 @@ async function labyrinth() {
 async function runOne(funcs) {
     const func = getRandom(funcs);
     await func(tge);
+}
+async function runEvent(event) {
+    if (event.type == "text")
+        await event_text(event);
+    else if (event.type == "script")
+        await event_script(event);
+    else
+        console.error(`Unexpected event type: ${event.type}`);
 }
 async function event_text(event) {
     tge.print(event.text, true);
@@ -155,6 +163,7 @@ async function event_script(event) {
     }
 }
 function continueAdventure() {
+    roomCount++;
     if (roomCount < ExitMinRoom)
         return true;
     if (roomCount >= ExitMaxRoom)
