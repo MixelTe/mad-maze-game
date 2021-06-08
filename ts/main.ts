@@ -3,6 +3,7 @@ import { EventsScripts } from "./events-scripts.js";
 import { Actions, Events, Room_event } from "./events.js";
 import { TextGameEngine, Titles } from "./TextGameEngine.js";
 import { EndesOfMaze } from "./endes-of-maze.js";
+import { Tests } from "./tests.js";
 const Version = "0.4.2";
 const ExitChance = 0.03;
 const ExitMinRoom = 30;
@@ -17,6 +18,10 @@ tge.init(new Titles("Безумный лабиринт", "Нажмите сюд�
 createDescription();
 // labyrinth();
 main();
+
+// new Tests(tge, runEvent);
+// NextRoom[0](tge);
+// EndesOfMaze[0](tge);
 
 
 async function main()
@@ -110,9 +115,7 @@ async function labyrinth()
 		if (i < 3) tge.print(`Комната №${i}`);
 		else tge.print(`Комната №${rndInt(MaxRoom)}`);
 		const event = getRandom(Events);
-		if (event.type == "text") await event_text(event);
-		else if (event.type == "script") await event_script(event);
-		else console.error(`Unexpected event type: ${event.type}`);
+		await runEvent(event);
 		await tge.wait();
 		tge.clear();
 		await runOne(NextRoom);
@@ -127,6 +130,12 @@ async function runOne(funcs: ((tge: TextGameEngine) => Promise<void>)[])
 {
 	const func = getRandom(funcs);
 	await func(tge);
+}
+async function runEvent(event: Room_event)
+{
+	if (event.type == "text") await event_text(event);
+	else if (event.type == "script") await event_script(event);
+	else console.error(`Unexpected event type: ${event.type}`);
 }
 async function event_text(event: Room_event)
 {
