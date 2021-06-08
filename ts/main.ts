@@ -20,6 +20,8 @@ createDescription();
 main();
 
 // new Tests(tge, runEvent);
+// new Tests(tge, runEvent).testEvent(Events[0]);
+// new Tests(tge, runEvent).printEvent(Events[0]);
 // NextRoom[0](tge);
 // EndesOfMaze[0](tge);
 

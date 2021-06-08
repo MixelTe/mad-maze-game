@@ -24,12 +24,12 @@ export class Tests
 			const parsed = JSON.parse(data);
 			window_testData++;
 			const window_testDataCur = window_testData;
-			if (parsed.text != undefined)
+			if (parsed.data != undefined)
 			{
 				while (window_testData == window_testDataCur)
 				{
 					tge.clear();
-					await runEvent(parsed);
+					await runEvent(parsed.data);
 					await tge.wait();
 				}
 			}
@@ -37,9 +37,9 @@ export class Tests
 		window.printEvent = async (data: string) =>
 		{
 			const parsed = JSON.parse(data);
-			if (parsed.text != undefined)
+			if (parsed.data != undefined)
 			{
-				this.printEvent(<Room_event>parsed);
+				this.printEvent(<Room_event>parsed.data);
 			}
 		}
 	}
