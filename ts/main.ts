@@ -38,7 +38,20 @@ async function main()
 	else tge.print("Добро пожаловать в &bБезумный лабиринт&c!");
 	tge.print("По легенде в нём спрятаны несметные богатства, а также джин, который исполнит любые желания");
 	tge.print("Те немногие, кто всё-таки отважился зайти в лабиринт, так и не вернулись...");
-	await tge.wait();
+	if (runCount <= 1)
+	{
+		const skipAll = await tge.choose(["&bПродолжить (небольшое вступление)", "^gray^Пропустить"]);
+		if (skipAll == 1)
+		{
+			await labyrinth();
+			await reRun();
+			return;
+		}
+	}
+	else
+	{
+		await tge.wait();
+	}
 	if (runCount > 1) tge.print("Решитесь ли вы теперь войти в лабиринт?", true);
 	else tge.print("Решитесь ли вы войти в лабиринт?", true);
 	const chosen = await tge.choose(["&bКонечно да!", "Пожалуй, нет"]);
