@@ -12,6 +12,7 @@ const MaxRoom = 10000;
 
 let runCount = 0;
 let agreeCount = 0;
+let refuseCount = 0;
 let roomCount = 0;
 const tge = new TextGameEngine();
 tge.init(new Titles("Безумный лабиринт", "Нажмите сюда для продолжения", `Версия: ${Version}`));
@@ -58,8 +59,9 @@ async function main()
 	tge.clear();
 	if (chosen != 0)
 	{
+		refuseCount++
 		tge.print("Мудрое решение");
-		if (runCount > 1) tge.print('"Пусть гибнут безумцы", - как вы знаете, говорят местные, когда приключенцы просят провести их через лабиринт');
+		if (refuseCount > 1) tge.print('"Пусть гибнут безумцы", - как вы знаете, говорят местные, когда приключенцы просят провести их через лабиринт');
 		else tge.print('"Пусть гибнут безумцы", - говорят местные, когда приключенцы просят провести их через лабиринт');
 		await tge.wait();
 		await reRun();
@@ -116,6 +118,8 @@ async function main()
 }
 async function labyrinth()
 {
+	roomCount = 0;
+	tge.clear();
 	tge.print("Вы зашли в лабиринт");
 	tge.print("Дверь за вами сразу же захлопнулась");
 	tge.print("Вы оглянулись и увидели как дверь постепенно сливается со стеной");

@@ -321,7 +321,7 @@ body {
 	border: 2px solid var(--color-text--);
 	padding: 5px 7px 5px 7px;
 	margin: 3px;
-	flex: 1 0 auto;
+	flex: 1 1 auto;
 	text-align: center;
 	cursor: pointer;
 }
