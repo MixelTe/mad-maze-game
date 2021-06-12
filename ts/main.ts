@@ -23,7 +23,8 @@ main();
 // new Tests(tge, runEvent);
 // new Tests(tge, runEvent).testEvent(Events[0]);
 // new Tests(tge, runEvent).printEvent(Events[0]);
-// new Tests(tge, runEvent).printEvents(Events, 20);
+// new Tests(tge, runEvent).printEvents(Events, 21);
+// new Tests(tge, runEvent).printActions(Actions, 2);
 // NextRoom[0](tge);
 // EndesOfMaze[0](tge);
 

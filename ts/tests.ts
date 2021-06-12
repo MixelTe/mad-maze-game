@@ -1,4 +1,4 @@
-import { Room_event } from "./events";
+import { Room_event, Action } from "./events";
 import { TextGameEngine } from "./TextGameEngine";
 
 declare global
@@ -71,6 +71,19 @@ export class Tests
 			this.tge.print();
 			this.tge.print(`Событие №${i}`);
 			await this.tge.choose(["Следующее событие"]);
+		}
+	}
+	public async printActions(actions: Action[], startI: number, endI?: number)
+	{
+		endI = endI || actions.length;
+		for (let i = startI; i < endI; i++) {
+			const act = actions[i];
+			this.tge.clear();
+			this.tge.print(act.text);
+			act.results.forEach(res => this.tge.print("   " + res));
+			this.tge.print();
+			this.tge.print(`Действие №${i}`);
+			await this.tge.choose(["Следующее действие"]);
 		}
 	}
 }

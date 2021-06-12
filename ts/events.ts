@@ -5,7 +5,7 @@ export interface Room_event
 	actions: Action[],
 	forbidAnotherActions?: boolean,
 }
-interface Action
+export interface Action
 {
 	text: string,
 	results: string[],
