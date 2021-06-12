@@ -161,7 +161,7 @@ async function event_text(event: Room_event)
 	tge.print(event.text, true);
 	tge.print("Что вы будете делать?");
 	const actions = getRandoms(event.actions, 2);
-	actions.push(getRandom(Actions));
+	if (!event.forbidAnotherActions) actions.push(getRandom(Actions));
 	const actionsStr: string[] = [];
 	actions.forEach(action => actionsStr.push(action.text));
 	const chosen = await tge.choose(actionsStr);
