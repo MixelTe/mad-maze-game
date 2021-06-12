@@ -26,7 +26,7 @@ main();
 // new Tests(tge, runEvent).printEvents(Events, 21);
 // new Tests(tge, runEvent).printActions(Actions, 2);
 // NextRoom[0](tge);
-// EndesOfMaze[0](tge);
+// runEnd(7);
 
 
 async function main()
@@ -39,7 +39,7 @@ async function main()
 		tge.print(`(Уже ${runCount}-й раз)`);
 	}
 	else tge.print("Добро пожаловать в &bБезумный лабиринт&c!");
-	tge.print("По легенде в нём спрятаны несметные богатства, а также джин, который исполнит любые желания");
+	tge.print("По легенде в нём спрятаны несметные богатства, а также Джин, который исполнит любые желания");
 	tge.print("Те немногие, кто всё-таки отважился зайти в лабиринт, так и не вернулись...");
 	if (runCount <= 1)
 	{
@@ -143,7 +143,7 @@ async function labyrinth()
 		await tge.wait();
 		tge.clear();
 	}
-	await runOne(EndesOfMaze);
+	await runEnd();
 	await tge.wait();
 	tge.clear();
 }
@@ -190,6 +190,55 @@ function continueAdventure()
 	if (roomCount < ExitMinRoom) return true;
 	if (roomCount >= ExitMaxRoom) return false;
 	return Math.random() > ExitChance;
+}
+async function runEnd(i?: number)
+{
+	i = i ?? rndInt(EndesOfMaze.length);
+	const res = await EndesOfMaze[i](tge);
+	await tge.wait();
+	tge.clear();
+	const room = convertWord(roomCount, ["комната", "комнаты", "комнат"]);
+	tge.print(`За игру вы зашли в ${roomCount} ${room}`);
+	try
+	{
+		const minCountStr = localStorage.getItem("minRoomCount") || "-1";
+		let minCount = parseInt(minCountStr);
+		if (roomCount < minCount || minCount <= 0)
+		{
+			minCount = roomCount;
+			tge.print(`Новый рекорд: ${minCount}`);
+		}
+		else
+		{
+			tge.print(`Ваш рекорд: ${minCount}`);
+		}
+		localStorage.setItem("minRoomCount", `${minCount}`)
+	}
+	catch (e)
+	{
+		console.error(e);
+	}
+	let endNum = `${i + 1}`;
+	if (typeof res == "number") endNum = `${i + 1}.${res + 1}`;
+	try
+	{
+		const endesStr = localStorage.getItem("foundEndes") || "[]";
+		const endes = <number[]>JSON.parse(endesStr);
+		if (endes.indexOf(i) < 0)
+		{
+			tge.print(`Вы нашли концовку №${endNum}!`, true);
+			endes.push(i);
+		}
+		else tge.print(`Вы завершили игру на концовку №${endNum}`, true);
+		const endesS = convertWord(endes.length, ["концовку", "концовки" ,"концовок"]);
+		tge.print(`Всего вы нашли ${endes.length} ${endesS} из ${EndesOfMaze.length}`);
+		localStorage.setItem("foundEndes", JSON.stringify(endes));
+	}
+	catch (e)
+	{
+		console.error(e);
+		tge.print(`Вы нашли концовку №${endNum}!`);
+	}
 }
 
 async function reRun()
@@ -301,4 +350,15 @@ function getRandoms<T>(array: T[], count = 1)
 		array[j] = t;
 	}
 	return array.slice(-count);
+}
+
+function convertWord(num: number, forms: string[])
+{
+	const last = `${num}`.substr(-1, 1);
+	const preLast = `${num}`.substr(-2, 1);
+	if (last == "1" && preLast != "1") return forms[0];
+	if (last == "2" && preLast != "1") return forms[1];
+	if (last == "3" && preLast != "1") return forms[1];
+	if (last == "4" && preLast != "1") return forms[1];
+	return forms[2];
 }
