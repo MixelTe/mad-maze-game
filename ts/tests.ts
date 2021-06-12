@@ -62,4 +62,15 @@ export class Tests
 			act.results.forEach(res => this.tge.print("   " + res));
 		});
 	}
+	public async printEvents(events: Room_event[], startI: number, endI?: number)
+	{
+		endI = endI || events.length;
+		for (let i = startI; i < endI; i++) {
+			const e = events[i];
+			this.printEvent(e);
+			this.tge.print();
+			this.tge.print(`Событие №${i}`);
+			await this.tge.choose(["Следующее событие"]);
+		}
+	}
 }
