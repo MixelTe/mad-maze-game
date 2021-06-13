@@ -6,8 +6,8 @@ import { EndesOfMaze } from "./endes-of-maze.js";
 import { Tests } from "./tests.js";
 const Version = "0.5";
 const ExitChance = 0.04;
-const ExitMinRoom = 15;
-const ExitMaxRoom = 50;
+const ExitMinRoom = 10;
+const ExitMaxRoom = 40;
 const MaxRoom = 10000;
 
 let runCount = 0;
@@ -25,7 +25,7 @@ main();
 // new Tests(tge, runEvent).printEvent(Events[0]);
 // new Tests(tge, runEvent).printEvents(Events, 21);
 // new Tests(tge, runEvent).printActions(Actions, 2);
-// NextRoom[0](tge);
+// NextRoom[7](tge);
 // runEnd(7);
 
 

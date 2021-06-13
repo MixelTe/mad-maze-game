@@ -107,7 +107,7 @@ async function end7(tge: TextGameEngine)
 		{
 			tge.print('"Чего ты хочешь?", - спросил Джин');
 			await tge.text(2);
-			tge.print('- Ты уверен, что хочешь именно этого?');
+			tge.print('- Ты желаешь именно этого?');
 			const chosen = await tge.choose(["Да", "Нет"]);
 			tge.clear();
 			if (chosen == 0) break;
@@ -117,7 +117,7 @@ async function end7(tge: TextGameEngine)
 		{
 			tge.print('- Так чего ты действительно хочешь?', true);
 			await tge.text(2);
-			tge.print('- Ты уверен, что хочешь именно этого?');
+			tge.print('- Ты желаешь именно этого?');
 			const chosen = await tge.choose(["Да", "Нет"]);
 			if (chosen == 0) break;
 			tge.clear();

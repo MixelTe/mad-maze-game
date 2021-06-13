@@ -434,7 +434,7 @@ class LineGetText extends Line
 		input.addEventListener("input", () =>
 		{
 			if (!allowSpaces) input.value = input.value.replaceAll(" ", "");
-			if (max > 0) input.value = input.value.substring(0, max + 1);
+			if (max > 0) input.value = input.value.substring(0, max);
 		});
 		input.addEventListener("change", () =>
 		{
