@@ -349,7 +349,7 @@ function getRandoms<T>(array: T[], count = 1)
 		array[i] = array[j];
 		array[j] = t;
 	}
-	return array.slice(-count);
+	return array.slice(0, count);
 }
 
 function convertWord(num: number, forms: string[])
