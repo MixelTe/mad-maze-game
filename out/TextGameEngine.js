@@ -384,7 +384,7 @@ class LineGetText extends Line {
             if (!allowSpaces)
                 input.value = input.value.replaceAll(" ", "");
             if (max > 0)
-                input.value = input.value.substring(0, max + 1);
+                input.value = input.value.substring(0, max);
         });
         input.addEventListener("change", () => {
             if (trimSpaces)

@@ -3,10 +3,10 @@ import { EventsScripts } from "./events-scripts.js";
 import { Actions, Events } from "./events.js";
 import { TextGameEngine, Titles } from "./TextGameEngine.js";
 import { EndesOfMaze } from "./endes-of-maze.js";
-const Version = "0.5";
+const Version = "0.5.1";
 const ExitChance = 0.04;
-const ExitMinRoom = 15;
-const ExitMaxRoom = 50;
+const ExitMinRoom = 10;
+const ExitMaxRoom = 40;
 const MaxRoom = 10000;
 let runCount = 0;
 let agreeCount = 0;
@@ -20,8 +20,10 @@ main();
 // new Tests(tge, runEvent);
 // new Tests(tge, runEvent).testEvent(Events[0]);
 // new Tests(tge, runEvent).printEvent(Events[0]);
-// NextRoom[0](tge);
-// EndesOfMaze[0](tge);
+// new Tests(tge, runEvent).printEvents(Events, 21);
+// new Tests(tge, runEvent).printActions(Actions, 2);
+// NextRoom[7](tge);
+// runEnd(7);
 async function main() {
     runCount += 1;
     tge.clear();
@@ -31,7 +33,7 @@ async function main() {
     }
     else
         tge.print("Добро пожаловать в &bБезумный лабиринт&c!");
-    tge.print("По легенде в нём спрятаны несметные богатства, а также джин, который исполнит любые желания");
+    tge.print("По легенде в нём спрятаны несметные богатства, а также Джин, который исполнит любые желания");
     tge.print("Те немногие, кто всё-таки отважился зайти в лабиринт, так и не вернулись...");
     if (runCount <= 1) {
         const skipAll = await tge.choose(["&bПродолжить (небольшое вступление)", "^gray^Пропустить"]);
@@ -138,7 +140,7 @@ async function labyrinth() {
         await tge.wait();
         tge.clear();
     }
-    await runOne(EndesOfMaze);
+    await runEnd();
     await tge.wait();
     tge.clear();
 }
@@ -158,7 +160,8 @@ async function event_text(event) {
     tge.print(event.text, true);
     tge.print("Что вы будете делать?");
     const actions = getRandoms(event.actions, 2);
-    actions.push(getRandom(Actions));
+    if (!event.forbidAnotherActions)
+        actions.push(getRandom(Actions));
     const actionsStr = [];
     actions.forEach(action => actionsStr.push(action.text));
     const chosen = await tge.choose(actionsStr);
@@ -183,6 +186,49 @@ function continueAdventure() {
     if (roomCount >= ExitMaxRoom)
         return false;
     return Math.random() > ExitChance;
+}
+async function runEnd(i) {
+    i = i ?? rndInt(EndesOfMaze.length);
+    const res = await EndesOfMaze[i](tge);
+    await tge.wait();
+    tge.clear();
+    const room = convertWord(roomCount, ["комната", "комнаты", "комнат"]);
+    tge.print(`За игру вы зашли в ${roomCount} ${room}`);
+    try {
+        const minCountStr = localStorage.getItem("minRoomCount") || "-1";
+        let minCount = parseInt(minCountStr);
+        if (roomCount < minCount || minCount <= 0) {
+            minCount = roomCount;
+            tge.print(`Новый рекорд: ${minCount}`);
+        }
+        else {
+            tge.print(`Ваш рекорд: ${minCount}`);
+        }
+        localStorage.setItem("minRoomCount", `${minCount}`);
+    }
+    catch (e) {
+        console.error(e);
+    }
+    let endNum = `${i + 1}`;
+    if (typeof res == "number")
+        endNum = `${i + 1}.${res + 1}`;
+    try {
+        const endesStr = localStorage.getItem("foundEndes") || "[]";
+        const endes = JSON.parse(endesStr);
+        if (endes.indexOf(i) < 0) {
+            tge.print(`Вы нашли концовку №${endNum}!`, true);
+            endes.push(i);
+        }
+        else
+            tge.print(`Вы завершили игру на концовку №${endNum}`, true);
+        const endesS = convertWord(endes.length, ["концовку", "концовки", "концовок"]);
+        tge.print(`Всего вы нашли ${endes.length} ${endesS} из ${EndesOfMaze.length}`);
+        localStorage.setItem("foundEndes", JSON.stringify(endes));
+    }
+    catch (e) {
+        console.error(e);
+        tge.print(`Вы нашли концовку №${endNum}!`);
+    }
 }
 async function reRun() {
     tge.clear();
@@ -278,5 +324,18 @@ function getRandoms(array, count = 1) {
         array[i] = array[j];
         array[j] = t;
     }
-    return array.slice(-count);
+    return array.slice(0, count);
+}
+function convertWord(num, forms) {
+    const last = `${num}`.substr(-1, 1);
+    const preLast = `${num}`.substr(-2, 1);
+    if (last == "1" && preLast != "1")
+        return forms[0];
+    if (last == "2" && preLast != "1")
+        return forms[1];
+    if (last == "3" && preLast != "1")
+        return forms[1];
+    if (last == "4" && preLast != "1")
+        return forms[1];
+    return forms[2];
 }

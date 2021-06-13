@@ -37,4 +37,26 @@ export class Tests {
             act.results.forEach(res => this.tge.print("   " + res));
         });
     }
+    async printEvents(events, startI, endI) {
+        endI = endI || events.length;
+        for (let i = startI; i < endI; i++) {
+            const e = events[i];
+            this.printEvent(e);
+            this.tge.print();
+            this.tge.print(`Событие №${i}`);
+            await this.tge.choose(["Следующее событие"]);
+        }
+    }
+    async printActions(actions, startI, endI) {
+        endI = endI || actions.length;
+        for (let i = startI; i < endI; i++) {
+            const act = actions[i];
+            this.tge.clear();
+            this.tge.print(act.text);
+            act.results.forEach(res => this.tge.print("   " + res));
+            this.tge.print();
+            this.tge.print(`Действие №${i}`);
+            await this.tge.choose(["Следующее действие"]);
+        }
+    }
 }
