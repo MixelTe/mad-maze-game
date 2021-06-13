@@ -1,7 +1,7 @@
 import { TextGameEngine } from "./TextGameEngine";
 
 export const NextRoom: ((tge: TextGameEngine) => Promise<void>)[] = [
-	nxRoom1, nxRoom2, nxRoom3, nxRoom4, nxRoom5, nxRoom6, nxRoom7, nxRoom8,
+	nxRoom1, nxRoom2, nxRoom2, nxRoom3, nxRoom4, nxRoom5, nxRoom6, nxRoom7, nxRoom8,
 ]
 const strongDoor = [
 	"Дверь оказалась крепче, чем вы думали",
@@ -15,6 +15,15 @@ const strongDoor = [
 	"Вас ударило током, но дверь всё ещё стоит",
 	"Дверь покачнулась и упала, вам так показалось, лёжа на полу",
 ]
+const words = [
+	"Корабль", "Зелёный", "Слон", "Бумага", "Перец", "Жёлтый", "Фиолетовый", "Губка", "Мандарин", "Волшебная палочка",
+	"Крокодил", "Шлем", "Кольчуга", "Бутерброд", "Хлеб", "Молоко", "Масло", "Сиреневый", "Свет", "Тьма",
+	"Тень", "Солнце", "Луна", "Звезда", "Сова", "Две совы", "Три совы", "Пять сов", "Куб", "Шар",
+	"Выход", "Вход", "Тупик", "Спасение", "Надежда", "Мгла", "Совесть", "Помощь", "Подсказка", "Кощей",
+	"Колобок", "Вода", "Лава", "Огонь", "Сыр", "Пирог", "Мыло", "Ягода", "Малина", "Арбуз",
+	"Монета", "Золото", "Сокровище", "Ловушка", "Принцесса", "Король", "Принц", "Яга", "Волк", "Заяц",
+	"Медведь", "Холод", "Тепло", "Вентилятор", "Холодильник", "Синий", "Красный", "Море", "Пляж", "Берег",
+]
 
 async function nxRoom1(tge: TextGameEngine)
 {
@@ -27,10 +36,10 @@ async function nxRoom1(tge: TextGameEngine)
 }
 async function nxRoom2(tge: TextGameEngine)
 {
+	const doors = getRandoms(words, 2);
 	tge.print("В этой комнате две двери");
-	tge.print('На одной написано: "Зелёный", а на другой "Корабль"');
+	tge.print(`На одной написано: "${doors[0]}", а на другой "${doors[1]}"`);
 	tge.print('В какую вы зайдёте?');
-	const doors = ["Зелёный", "Корабль"];
 	const i = await tge.choose(doors);
 	tge.print(`Вы зашли в дверь с надписью "${doors[i]}"`);
 }
@@ -108,4 +117,19 @@ async function nxRoom8(tge: TextGameEngine)
 	} while (Math.random() < 0.5);
 	tge.print(`Вы отчаились и облокотились на стену`);
 	tge.print("Стена покачнулась и вы оказались в другой комнате");
+}
+
+
+function getRandoms<T>(array: T[], count = 1)
+{
+	const l = array.length;
+	if (count > l) count = l;
+	for (let i = 0; i < count; i++)
+	{
+		const j = Math.floor(Math.random() * (l - i));
+		const t = array[i];
+		array[i] = array[j];
+		array[j] = t;
+	}
+	return array.slice(0, count);
 }
