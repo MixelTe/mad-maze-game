@@ -5,14 +5,15 @@ import { TextGameEngine, Titles } from "./TextGameEngine.js";
 import { EndesOfMaze } from "./endes-of-maze.js";
 import { Tests } from "./tests.js";
 const Version = "0.5.1";
-const ExitChance = 0.04;
-const ExitMinRoom = 10;
-const ExitMaxRoom = 40;
+const ExitChance = 0.15;
+const ExitMinRoom = 5;
+const ExitMaxRoom = 15;
 const MaxRoom = 10000;
 
 let runCount = 0;
 let agreeCount = 0;
 let refuseCount = 0;
+let mazeStartedOnce = false;
 let roomCount = 0;
 const tge = new TextGameEngine();
 tge.init(new Titles("Безумный лабиринт", "Нажмите сюда для продолжения", `Версия: ${Version}`));
@@ -25,7 +26,7 @@ main();
 // new Tests(tge, runEvent).printEvent(Events[0]);
 // new Tests(tge, runEvent).printEvents(Events, 21);
 // new Tests(tge, runEvent).printActions(Actions, 2);
-// NextRoom[7](tge);
+// NextRoom[0](tge);
 // runEnd(7);
 
 
@@ -41,7 +42,7 @@ async function main()
 	else tge.print("Добро пожаловать в &bБезумный лабиринт&c!");
 	tge.print("По легенде в нём спрятаны несметные богатства, а также Джин, который исполнит любые желания");
 	tge.print("Те немногие, кто всё-таки отважился зайти в лабиринт, так и не вернулись...");
-	if (runCount <= 1)
+	if (runCount <= 1 || mazeStartedOnce)
 	{
 		const skipAll = await tge.choose(["&bПродолжить (небольшое вступление)", "^gray^Пропустить"]);
 		if (skipAll == 1)
@@ -120,6 +121,7 @@ async function main()
 }
 async function labyrinth()
 {
+	mazeStartedOnce = true;
 	roomCount = 0;
 	tge.clear();
 	tge.print("Вы зашли в лабиринт");
@@ -133,7 +135,7 @@ async function labyrinth()
 		i++;
 		tge.clear();
 		tge.print("Вы прочитали на табличке:");
-		if (i < 3) tge.print(`Комната №${i}`);
+		if (i < 2) tge.print(`Комната №${i}`);
 		else tge.print(`Комната №${rndInt(MaxRoom)}`);
 		const event = getRandom(Events);
 		await runEvent(event);
