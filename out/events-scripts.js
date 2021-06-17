@@ -2,10 +2,12 @@ export const EventsScripts = new Map();
 EventsScripts.set("potions", potions);
 async function potions(tge) {
     const ingredients = ["Сахар", "Кроличья лапка", "Огненный порошок", "Сверкающий арбуз", "Паучий глаз", "Слеза гаста", "Золотая морковь"];
+    const ingredientsAdded = ["Сахар", "Кроличью лапку", "Огненный порошок", "Сверкающий арбуз", "Паучий глаз", "Слезу гаста", "Золотую морковь"];
     const s_glow = "Светящийся порошок";
     const s_red = "Красный порошок";
     const s_eye = "Маринованный паучий глаз";
     const drink = async (res) => {
+        tge.clear();
         tge.print("Зелье забурлило и на зельеварке зажглась зелёная лампочка");
         tge.print("Вы решили, что это хороший знак и взяли бутылёк с зельем");
         await tge.wait();
@@ -14,7 +16,9 @@ async function potions(tge) {
         tge.print(res, true);
     };
     const potion_slowness = async () => {
-        tge.print("Зелье стало серого цвета");
+        tge.clear();
+        tge.print(`Вы добавили ${s_eye}`);
+        tge.print("Зелье стало серого цвета", true);
         tge.print("Что вы добавите дальше?");
         const chosen = await tge.choose([s_glow, s_red], false, true);
         switch (chosen) {
@@ -33,9 +37,11 @@ async function potions(tge) {
     tge.print("Из чего вы сварите зелье?");
     tge.print("Выбирите первый реагент:");
     const chosen = await tge.choose(ingredients, false, true);
+    tge.clear();
+    tge.print(`Вы добавили ${ingredientsAdded[chosen]}`);
     switch (chosen) {
         case 0:
-            tge.print("Зелье приобрело голубоватый оттенок");
+            tge.print("Зелье приобрело голубоватый оттенок", true);
             tge.print("Что вы добавите дальше?");
             const chosen0 = await tge.choose([s_glow, s_red, s_eye], false, true);
             switch (chosen0) {
@@ -54,7 +60,7 @@ async function potions(tge) {
             }
             break;
         case 1:
-            tge.print("Зелье приобрело яркий зелёный цвет");
+            tge.print("Зелье приобрело яркий зелёный цвет", true);
             tge.print("Что вы добавите дальше?");
             const chosen1 = await tge.choose([s_glow, s_red, s_eye], false, true);
             switch (chosen1) {
@@ -73,7 +79,7 @@ async function potions(tge) {
             }
             break;
         case 2:
-            tge.print("Зелье стало бордового цвета");
+            tge.print("Зелье стало бордового цвета", true);
             tge.print("Что вы добавите дальше?");
             const chosen2 = await tge.choose([s_glow, s_red], false, true);
             switch (chosen2) {
@@ -89,7 +95,7 @@ async function potions(tge) {
             }
             break;
         case 3:
-            tge.print("Зелье стало ярко-красного цвета");
+            tge.print("Зелье стало ярко-красного цвета", true);
             tge.print("Что вы добавите дальше?");
             const chosen3 = await tge.choose([s_glow, s_eye], false, true);
             switch (chosen3) {
@@ -105,7 +111,7 @@ async function potions(tge) {
             }
             break;
         case 4:
-            tge.print("Зелье окрасилось в болотный цвет");
+            tge.print("Зелье окрасилось в болотный цвет", true);
             tge.print("Что вы добавите дальше?");
             const chosen4 = await tge.choose([s_glow, s_red, s_eye], false, true);
             switch (chosen4) {
@@ -124,7 +130,7 @@ async function potions(tge) {
             }
             break;
         case 5:
-            tge.print("Зелье окрасилось в розовый цвет");
+            tge.print("Зелье окрасилось в розовый цвет", true);
             tge.print("Что вы добавите дальше?");
             const chosen5 = await tge.choose([s_glow, s_red], false, true);
             switch (chosen5) {
