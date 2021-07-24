@@ -211,6 +211,7 @@ async function runEnd(i) {
     catch (e) {
         console.error(e);
     }
+    await tge.wait();
     let endNum = `${i + 1}`;
     if (typeof res == "number")
         endNum = `${i + 1}.${res + 1}`;
