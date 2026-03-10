@@ -1,0 +1,59 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+@font-face {
+	font-family: comic;
+	src: url(/comic.ttf);
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font: inherit;
+	color: inherit;
+	background: none;
+	border: none;
+}
+
+html {
+	height: 100%;
+}
+body {
+	min-height: 100%;
+	font-family: comic, Arial, Helvetica, sans-serif;
+	--c-back: antiquewhite;
+	--c-back2: #fde6c7;
+	--c-primary: #ffa024;
+	--c-primary-dim: #ffbf6d;
+	--c-secondary: #156d00;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+button {
+	cursor: pointer;
+}
+
+a {
+	text-decoration: none;
+}
+
+body {
+	display: flex;
+	background-color: var(--c-back);
+}
+
+.root {
+	max-width: 800px;
+	margin-inline: auto;
+}
