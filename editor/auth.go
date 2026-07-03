@@ -13,14 +13,19 @@ import (
 )
 
 type login struct {
-	Username string `form:"username" json:"username" binding:"required"`
+	Login string `form:"login" json:"login" binding:"required"`
 	Password string `form:"password" json:"password" binding:"required"`
 }
 
 func applyAuthMiddleware(r *gin.Engine) (*jwt.GinJWTMiddleware, error) {
+	jwtSecret := os.Getenv("JWT_SECRET")
+	if jwtSecret == "" {
+		log.Fatal("JWT_SECRET is not set")
+	}
+
 	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
 		Realm:          "abc",
-		Key:            []byte(os.Getenv("JWT_SECRET")),
+		Key:            []byte(jwtSecret),
 		TokenLookup:    "cookie:jwt",
 		Timeout:        time.Hour,
 		MaxRefresh:     time.Hour * 24 * 7,
@@ -44,6 +49,7 @@ func applyAuthMiddleware(r *gin.Engine) (*jwt.GinJWTMiddleware, error) {
 		Authenticator: func(c *gin.Context) (any, error) {
 			var loginVals login
 			if err := c.ShouldBind(&loginVals); err != nil {
+				log.Printf("Authentication bind error: %v", err)
 				return nil, jwt.ErrMissingLoginValues
 			}
 
@@ -72,11 +78,11 @@ func applyAuthMiddleware(r *gin.Engine) (*jwt.GinJWTMiddleware, error) {
 		return nil, errInit
 	}
 
-	r.POST("/login", authMiddleware.LoginHandler)
-	r.POST("/refresh", authMiddleware.RefreshHandler)
+	r.POST("/api/login", authMiddleware.LoginHandler)
+	r.POST("/api/refresh", authMiddleware.RefreshHandler)
 
 	auth := r.Group("/", authMiddleware.MiddlewareFunc())
-	auth.POST("/logout", authMiddleware.LogoutHandler)
+	auth.POST("/api/logout", authMiddleware.LogoutHandler)
 
 	return authMiddleware, nil
 }

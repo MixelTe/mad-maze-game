@@ -29,6 +29,10 @@
 	color: var(--c-primary);
 }
 
+.login .error {
+	color: var(--c-error);
+}
+
 .login input {
 	padding: 0.25em;
 	border: 1px solid var(--c-primary);

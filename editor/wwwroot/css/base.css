@@ -24,11 +24,12 @@ html {
 body {
 	min-height: 100%;
 	font-family: comic, Arial, Helvetica, sans-serif;
-	--c-back: antiquewhite;
+	--c-back: #faebd7;
 	--c-back2: #fde6c7;
 	--c-primary: #ffa024;
 	--c-primary-dim: #ffbf6d;
 	--c-secondary: #156d00;
+	--c-error: #ff6347;
 }
 
 img,
@@ -55,5 +56,10 @@ body {
 
 .root {
 	max-width: 800px;
+	width: 100%;
 	margin-inline: auto;
+}
+
+.error {
+	color: var(--c-error);
 }

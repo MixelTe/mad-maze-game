@@ -5,7 +5,6 @@ import (
 	"io/fs"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -13,17 +12,21 @@ import (
 
 //go:embed wwwroot
 var rootDir embed.FS
+var Environment = "dev"
 
 type User struct {
-	UserName string
+	UserName string `form:"username" json:"username" binding:"required"`
 }
 
 func main() {
+	devMode := Environment == "dev"
+	if !devMode {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	r := gin.Default()
 	authMiddleware, err := applyAuthMiddleware(r)
 
-	gin_mode := os.Getenv("GIN_MODE")
-	root, err := fs.Sub(rootDir, "wwwroot")
+	rootFS, err := fs.Sub(rootDir, "wwwroot")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -36,10 +39,10 @@ func main() {
 			return
 		}
 
-		if gin_mode == "release" {
-			http.FileServer(http.FS(root)).ServeHTTP(c.Writer, c.Request)
-		} else {
+		if devMode {
 			http.ServeFile(c.Writer, c.Request, "./wwwroot"+path)
+		} else {
+			http.FileServer(http.FS(rootFS)).ServeHTTP(c.Writer, c.Request)
 		}
 	})
 
@@ -50,7 +53,7 @@ func main() {
 	// }
 
 	auth := r.Group("/api", authMiddleware.MiddlewareFunc())
-	auth.GET("/user", func(ctx *gin.Context) {
+	auth.GET("/me", func(ctx *gin.Context) {
 		user, _ := ctx.Get("user")
 		ctx.JSON(200, user)
 	})

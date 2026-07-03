@@ -9,7 +9,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noUncheckedIndexedAccess": true,
-    "moduleResolution": "node",
     "allowJs": true,
     "resolveJsonModule": true,
     "isolatedModules": true,

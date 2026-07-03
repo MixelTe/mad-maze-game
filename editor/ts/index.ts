@@ -1,10 +1,13 @@
 import render_login from "./pages/login.js";
-import { Div, SetContent } from "./utils.js";
+import render_home from "./pages/home.js"
+import { Div, runPageCleanup, SetContent } from "./lib.js";
 
 toPage("login");
-function toPage(page: "login")
+export function toPage(page: "login" | "home")
 {
+	runPageCleanup();
 	SetContent(document.body, Div("root", {
 		"login": render_login,
+		"home": render_home,
 	}[page]()));
 }
