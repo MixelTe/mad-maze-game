@@ -138,6 +138,8 @@ class QueryCacheCls
 }
 
 export const QueryCache = new QueryCacheCls();
+let on401 = () => { };
+export const setUnauthorisedHandler = (fn: () => void) => { on401 = fn; }
 
 /**
  * Create a reactive query state that manages loading, success, error states, and caching.
@@ -182,6 +184,7 @@ export function query<R, A extends any[]>(name: string | null, fetch: (...args: 
 					status: err instanceof FetchError ? err.status : undefined,
 					exc: err,
 				}
+				if (q.error.status == 401) on401();
 			}
 			if (name)
 			{

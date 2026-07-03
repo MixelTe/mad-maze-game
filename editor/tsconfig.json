@@ -10,7 +10,6 @@
     "forceConsistentCasingInFileNames": true,
     "noUncheckedIndexedAccess": true,
     "allowJs": true,
-    "resolveJsonModule": true,
     "isolatedModules": true,
     "lib": [
       "DOM",
